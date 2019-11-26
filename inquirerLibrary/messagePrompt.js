@@ -1,7 +1,5 @@
 // Prompt to send messages to users
 
-// const SendBird = require('sendbird');
-// const sb = new SendBird({appId: '0eb29a7977a1616f453d45d553d920a451e40725'});
 const { SB } = require('../modules/sendbird');
 
 let inputHandlePrompt = (email) => {
@@ -20,7 +18,6 @@ let inputHandlePrompt = (email) => {
         // I'll use email for now which prevents people faking their identity. Will figure out
         // how to implement nickname later
 
-        console.log('User data', userData);
         SB.connect(email, (user, error) => {
             if (error) {
                 console.log('Error encountered while connecting to SB');
@@ -29,17 +26,15 @@ let inputHandlePrompt = (email) => {
             // newFeature: Figure out how to add metaData like nickname, etc. later
             SB.OpenChannel.getChannel('general_chat')
             .then((openChannel, error) => {
-                console.log('Open channel reached');
                 openChannel.enter((response, error) => {
                     if (error) {
+                        console.log('Open channel not reached');
                         return;
                     }
-                    // openChannel.sendUserMessage(message, (message, error) => {
-                    //     if (error) {
-                    //         console.log('Error', error);
-                    //     }
+                    // Accepts an input message and makes sure to send it through the socket
+                    // which is possible because we pass through the 'openChannel' object
+                    console.log('Open channel reached');
                     inputMessagePrompt(openChannel);
-                    // })
                 })
             })
 

@@ -1,42 +1,47 @@
 // Prompt to send or receive message
 
+// Modules 
+const { SB } = require('../modules/sendbird');
+// Utility Functions
 const { major, error, success, important, neutral, light} = require('../chalkLibrary');
-let arrayColorMessage = [major, error, success, neutral, important, light];
+let arrayOfMessageColors = [major, error, success, neutral, important, light];
 let counter = 0;
 
-let connectPrompt = () => {
+
+let connectPrompt = (email) => {
     const questions = [{
-        name: 'emailInput',
-        message: 'Enter your email',
+        name: 'nickname',
+        message: 'Enter your handle',
         type: 'input',
     }]
     inquirer.prompt(questions).then((answer) => {
-        const { emailInput } = answer;
-        // sb.connect(emailInput, (user, error) => {
-        //     console.log(`User successfully logged in with username ${emailInput}`);
-        //     sb.OpenChannel.getChannel('general_chat')
-        //     .then((openChannel, error) => {
-        //         openChannel.enter((response, error) => {
-        //             if (error) {
-        //                 return;
-        //             }
+        const { nickname } = answer;
+        SB.connect(email, (user, error) => {
+            console.log(`User successfully logged in with username ${email}`);
+            SB.OpenChannel.getChannel('general_chat')
+            .then((openChannel, error) => {
+                openChannel.enter((response, error) => {
+                    if (error) {
+                        console.log('Channel unsuccessfully entered.')
+                        return;
+                    }
 
-        //             var ChannelHandler = new sb.ChannelHandler();
-        //             ChannelHandler.onMessageReceived = (url, messageObject) => {
-        //                 let { message } = messageObject;
-        //                 let { userId } = messageObject._sender;
-        //                 let finalMessage = userId + ': ' + message;
-        //                 let lengthArray = arrayColorMessage.length;
-        //                 let currentColor = arrayColorMessage[counter];
-        //                 counter++;
-        //                 counter == lengthArray ? counter = 0 : counter;
-        //                 console.log(currentColor(finalMessage));
-        //             }; // Needs to be unique id
-        //             sb.addChannelHandler('abcdefgh', ChannelHandler);
-
-        //         });
-        //     })
-        // })
+                    var ChannelHandler = new SB.ChannelHandler();
+                    ChannelHandler.onMessageReceived = (url, messageObject) => {
+                        let { message } = messageObject;
+                        let { userId } = messageObject._sender;
+                        let finalMessage = userId + ': ' + message;
+                        let lengthArray = arrayOfMessageColors.length;
+                        let currentColor = arrayOfMessageColors[counter];
+                        counter++;
+                        counter == lengthArray ? counter = 0 : counter;
+                        console.log(currentColor(finalMessage));
+                    }; // Channel handler needs to have unique id
+                    SB.addChannelHandler('abcdefgh', ChannelHandler); // NewFeature: Use a cryptographic module here to prevent collisions
+                    // or create your own it's actually kind of fun.
+                });
+            })
+        })
     })
 }
 
@@ -47,5 +52,4 @@ module.exports = {
 // External Modules
 const inquirer = require('inquirer');
 // Internal Modules
-//const { firebase } = require('../index.js')
 const { inputMessagePrompt } = require('./messagePrompt');
