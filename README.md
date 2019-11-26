@@ -8,6 +8,6 @@ Some specs might change, the details are still being worked on.
 
 Moira references the name Moirai, which is that of the three Greek mythological creatures called the Fates. Atropos, Lachesis,and Clotho. 
 
-Hopefully this will provide people with a sense of privacy. It'll also give people the impression that you're actually working when you're not, so hopefully other software engineers will enjoy this one.
+It'll give people the impression that you're actually working when you're not, so hopefully other software engineers will enjoy this one.
 
 :)

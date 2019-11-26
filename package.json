@@ -1,0 +1,39 @@
+{
+  "name": "moira",
+  "version": "1.0.0",
+  "description": "Chat app for terminal",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abdelshok/moira.git"
+  },
+  "keywords": [
+    "moira",
+    "chat",
+    "terminal",
+    "app"
+  ],
+  "author": "Abdel Shokair",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/abdelshok/moira/issues"
+  },
+  "homepage": "https://github.com/abdelshok/moira#readme",
+  "dependencies": {
+    "chalk": "^3.0.0",
+    "clear": "^0.1.0",
+    "dotenv": "^8.2.0",
+    "figlet": "^1.2.4",
+    "firebase": "^7.5.0",
+    "inquirer": "^7.0.0",
+    "sendbird": "^3.0.112",
+    "sendbird-nodejs": "^1.0.0"
+  },
+  "bin": {
+    "moira": "./bin/demo-global.js"
+  },
+  "preferGlobal": true
+}
