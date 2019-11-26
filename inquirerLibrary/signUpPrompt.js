@@ -7,7 +7,7 @@ const SendBird = require('sendbird');
 // Firebase App (the core Firebase SDK) is always required and
 // must be listed before other Firebase SDKs
 const firebase = require('firebase');
-const sb = new SendBird({ appId: process.env.SENDBIRD_APP_ID});
+// const sb = new SendBird({ appId: process.env.SENDBIRD_APP_ID});
 
 let signUpPrompt = () => {
     const questions = [ {

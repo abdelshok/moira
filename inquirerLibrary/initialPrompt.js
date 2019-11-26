@@ -6,7 +6,7 @@ let initialPrompt = () => {
     const questions = [
         {
             name: 'WelcomeUserPrompt',
-            message: 'Welcome to Moira \n \n 🌙 \n \n 🚀 \n \n Please press enter. \n'
+            message: 'Welcome to Moira \n \n 🌙 \n \n \n Please press enter. \n'
         }
     ]
     inquirer.prompt(questions).then(() => {
@@ -19,12 +19,10 @@ let userOptionsPrompt = () => {
         {
             name: 'initialUserSelection',
             type: 'list',
-            message: "What do you want to do?",
+            message: "Pick your poison 💀",
             choices: [
                 'Login',
-                'Sign Up',
-                'Connect',
-                'Message',
+                'Sign Up'
             ]
         }
     ]
@@ -36,11 +34,7 @@ let userOptionsPrompt = () => {
         } else if (initialUserSelection === 'Sign Up') {
             // Sign up prompts
             signUpPrompt();
-        } else if (initialUserSelection === 'Connect') {
-            connectPrompt();
-        } else if (initialUserSelection === 'Message') {
-            inputEmailPrompt();
-        }
+        } 
     })
 }
 
@@ -53,5 +47,3 @@ const inquirer = require('inquirer');
 // Internal Modules
 const { loginPrompt } = require('./loginPrompt');
 const { signUpPrompt } = require('./signUpPrompt');
-const { connectPrompt } = require('./connectPrompt');
-const { inputEmailPrompt } = require('./messagePrompt');

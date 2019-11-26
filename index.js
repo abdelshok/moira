@@ -5,8 +5,6 @@
 // External Packages
 const clear = require('clear');
 const figlet = require('figlet');
-// const SendBird = require('sendbird');
-// var sb = new SendBird({appId: '0eb29a7977a1616f453d45d553d920a451e40725'});
 // Internal Modules
 const { initialPrompt } = require('./inquirerLibrary/initialPrompt'); 
 const { major } = require('./chalkLibrary');
@@ -37,6 +35,5 @@ async function runMoira() {
 } 
 
 module.exports = {
-    runMoira,
-    // sb
+    runMoira
 }

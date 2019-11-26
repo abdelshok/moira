@@ -19,16 +19,20 @@ let loginPrompt = () => {
     ]
     inquirer.prompt(questions).then((answer)=> {
         const {email, password} = answer;
-        console.log('User email is', email);
-        console.log('User password is', password);
         firebase.auth().signInWithEmailAndPassword(email, password)
         .then(() => {
-            console.log(success('User successfully logged in.'));
+            console.log(success('User successfully logged into Firebase.'));
+            try {
+                console.log('Email passed to the inputHandlePrompt', email);
+                inputHandlePrompt(email);
+            } catch (err) {
+                console.log(error('Input email prompt function call-related error'));
+            }
         })
         .catch(function(err) {
             // Handle Errors here.
             console.log(error('Incorrect email or password information'));
-            setTimeout(loginPrompt, 2000);
+            setTimeout(loginPrompt, 2000); // Gives the user time to process the notification
         });
     })
 }
@@ -41,3 +45,4 @@ module.exports = {
 // External Modules
 const inquirer = require('inquirer');
 const { error, success } = require('../chalkLibrary');
+const { inputHandlePrompt } = require('./messagePrompt');
