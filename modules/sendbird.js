@@ -5,6 +5,7 @@
 require('dotenv').config(); 
 
 const SendBird = require('sendbird');
-var SB = new SendBird({appId: process.env.SENDBIRD_APP_ID});
+// var SB = new SendBird({appId: process.env.SENDBIRD_APP_ID});
+var SB = new SendBird({appId: "EC4FFBC1-31DF-47DA-88A4-1AFE1771302E"});
 
 module.exports.SB = SB;
