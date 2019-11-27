@@ -5,7 +5,7 @@
 // Firebase App (the core Firebase SDK) is always required and
 // must be listed before other Firebase SDKs
 const firebase = require('firebase');
-
+const SB = require
 let signUpPrompt = () => {
     const questions = [ {
         name: 'email',
@@ -65,40 +65,7 @@ let passwordConfirmationPrompt = (email, password) => {
                 console.log(success('Account creation and connection successful'));
                 try {
                     console.log(important('Successful connection'));
-                    sb.connect(email, (user, error) => {
-                        console.log(`User successfully logged in with username ${email}`);
-                        sb.OpenChannel.getChannel('general_chat')
-                        .then((openChannel, error) => {
-                            console.log('Open channel reached');
-                            console.log('Channel', openChannel);
-                            openChannel.enter((response, error) => {
-                                if (error) {
-                                    return;
-                                }
-
-                                console.log('Response when entering page', response)
-                                openChannel.sendUserMessage("Hiiiii", (message, error) => {
-                                    if (error) {
-                                        console.log('error', error)
-                                    }
-                                    console.log('Message', message);
-                                })
-                                return response
-                            });
-                        })
-                    })
-                    //     .then((response, error) => {
-                    //         if (error) {
-                    //             return ;
-                    //         }
-                    //         console.log('Channel entered');
-                    //         console.log('Response of channel', response);
-                    //     })
-                    //     .then((response) => {
-                    //         console.log('Response given', response);
-                    //         return response;
-                    //     })
-                    // })
+                    messageOrConnectPrompt(email);
                 } catch(err) {
                     console.log(error('Unsuccessful connection to SB.'))
                 }
@@ -126,3 +93,4 @@ const inquirer = require('inquirer');
 //const { firebase } = require('../index.js')
 const { error, success, important } = require('../chalkLibrary');
 const { validateEmail } = require('../utilityLibrary/generalUtility');
+const { messageOrConnectPrompt } = require('./messageOrConnectPrompt');
