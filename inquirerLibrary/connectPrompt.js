@@ -18,7 +18,7 @@ let connectPrompt = (email) => {
         const { nickname } = answer;
         SB.connect(email, (user, error) => {
             console.log(`User successfully logged in with username ${email}`);
-            SB.OpenChannel.getChannel('general_chat')
+            SB.OpenChannel.getChannel('channel_one')
             .then((openChannel, error) => {
                 openChannel.enter((response, error) => {
                     if (error) {

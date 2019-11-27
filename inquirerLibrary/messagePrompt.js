@@ -24,7 +24,7 @@ let inputHandlePrompt = (email) => {
                 return;
             };
             // newFeature: Figure out how to add metaData like nickname, etc. later
-            SB.OpenChannel.getChannel('general_chat')
+            SB.OpenChannel.getChannel('channel_one')
             .then((openChannel, error) => {
                 openChannel.enter((response, error) => {
                     if (error) {
