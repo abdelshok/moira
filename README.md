@@ -2,10 +2,10 @@ Moira is a chat application for the terminal.
 
 It's the first prototype. Some specs might change, the details are still being worked on.
 
-Moira references the name Moirai, which is that of the three Greek mythological creatures called the Fates. Atropos, Lachesis,and Clotho. 
+Moira references the name Moirai, referencing the three mythological creatures.
 
-Why did I create it? A few reasons.
+Users will be able to create group chats through 'channels', set passwords or not for said channels, message each other back and forth in real time. Messages will be implemented with E2EE to preserve maximum privacy and aren't saved on any of the cloud servers.
 
-Moira does not track messages. Although it uses Firebase for authentication, it does actually not track the messages being sent across the server. If users leave the chat, they do not have access to the conversation history. Privacy is always good. 
+I'm separating the servers and using different providers to make sure that the data isn't centralized anywhere.
 
-Added benefit is also that you get to pretend to be working when you're not necessarily.
+Hopefully this will allow some people to have some fun while at work :)
