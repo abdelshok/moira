@@ -34,7 +34,7 @@ let loginPrompt = () => {
         .catch(function(err) {
             // Handle Errors here.
             console.log(error('Incorrect email or password information'));
-            setTimeout(loginPrompt, 2000); // Gives the user time to process the notification
+            setTimeout(loginPrompt, 1200); // Gives the user time to process the notification
         });
     })
 }

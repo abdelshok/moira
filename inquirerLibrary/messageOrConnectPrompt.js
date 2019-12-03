@@ -3,10 +3,12 @@
 
 let connectOption = 'Connect to Channel Feed';
 let messageOption = 'Message';
+let retrieveChannelsOption = 'Retrieve Available Channels'
 
 // Internal Modules
 const { connectPrompt } = require('./connectPrompt');
 const { inputHandlePrompt } = require('./messagePrompt');
+const { getChannelListPrompt } = require('./getChannelListPrompt');
 
 let messageOrConnectPrompt = (email) => {
     const questions = [
@@ -16,7 +18,8 @@ let messageOrConnectPrompt = (email) => {
             type: 'list',
             choices: [
                 `${connectOption}`,
-                `${messageOption}`
+                `${messageOption}`,
+                `${retrieveChannelsOption}`,
             ]
         }
     ]
@@ -26,6 +29,8 @@ let messageOrConnectPrompt = (email) => {
             connectPrompt(email);
         } else if (userChoice === messageOption) {
             inputHandlePrompt(email);
+        } else if (userChoice === retrieveChannelsOption) {
+            getChannelListPrompt();
         }
     })
 }
