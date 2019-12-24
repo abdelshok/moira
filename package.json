@@ -2,7 +2,7 @@
   "name": "moira",
   "version": "1.0.0",
   "description": "Chat app for terminal",
-  "main": "index.js",
+  "main": "./index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/abdelshok/moira#readme",
   "dependencies": {
+    "@firebase/firestore": "^1.9.1",
     "chalk": "^3.0.0",
     "clear": "^0.1.0",
     "dotenv": "^8.2.0",

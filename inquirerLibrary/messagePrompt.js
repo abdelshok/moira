@@ -1,31 +1,27 @@
 // Prompt to send messages to users
 
-const { SB } = require('../modules/sendbird');
+const { SB } = require('../configurations/sendbird');
 
-let inputHandlePrompt = (email) => {
+let inputHandlePrompt = (email, chosenChannel, channelUrl, username) => {
     const questions = [
         {
-            name: 'nickname',
-            type: 'input',
-            message: 'Type in your handle'
+            name: 'connectToChatConfirmation',
+            type: 'confirm',
+            message: 'Please confirm you want to send messages on the chat.'
         }
     ]
     inquirer.prompt(questions).then((answer) => {
-        let { nickname } = answer;
-
         // Create an object with both the email and the handle itself? 
-        // ToChange: Nickname used here to set up unique Sendbird ID. A better choice would be email.
         // I'll use email for now which prevents people faking their identity. Will figure out
         // how to implement nickname later
 
         // Temporary new implementation connects the user to the sendbird API with the user name
-        SB.connect(nickname, (user, error) => {
+        SB.connect(username, (user, error) => {
             if (error) {
                 console.log('Error encountered while connecting to SB');
                 return;
             };
-            // newFeature: Figure out how to add metaData like nickname, etc. later
-            SB.OpenChannel.getChannel('channel_one') // ToChange: The channel here is hard-coded. That's not good. 
+            SB.OpenChannel.getChannel(channelUrl) // Connects you to the correct channel to chat
             .then((openChannel, error) => {
                 openChannel.enter((response, error) => {
                     if (error) {
@@ -34,9 +30,9 @@ let inputHandlePrompt = (email) => {
                     }
                     // Accepts an input message and makes sure to send it through the socket
                     // which is possible because we pass through the 'openChannel' object
-                    console.log('Open channel reached');
+                    console.log(`Open channel ${chosenChannel} reached`);
                     clear();
-                    inputMessagePrompt(openChannel);
+                    inputMessagePrompt(openChannel, email);
                 })
             })
 
@@ -44,7 +40,7 @@ let inputHandlePrompt = (email) => {
     })
 }
 
-let inputMessagePrompt = (openChannel) => {
+let inputMessagePrompt = (openChannel, email) => {
     const questions = [
         {
             name: 'message',
@@ -56,8 +52,13 @@ let inputMessagePrompt = (openChannel) => {
         try {
             let { message } = answer;
             if (message === 'exitexitexit') {
-                console.log(success('Messaging interface successfully exited.'))
-                messageOrConnectPrompt();
+                console.log(success('Messaging interface successfully exited. Redirecting you.'))
+                setTimeout(() => { // Chaining asynchronous callbacks here to make sure they happen one after the other
+                    clear();
+                    setTimeout(()=> { // Anonymous functions allows us to add parameters to our callback
+                        createOrRetrievePrompt(email);
+                    }, 1000)
+                }, 2500);
             } else { // Allows the user to exit from the message Prompt and go back to Main menu
                 openChannel.sendUserMessage(message, (message, error) => {
                     if (error) {
@@ -81,5 +82,5 @@ module.exports = {
 const clear = require('clear');
 const inquirer = require('inquirer');
 // Internal Modules
-const { messageOrConnectPrompt } = require('./messageOrConnectPrompt');
+const { createOrRetrievePrompt } = require('./createOrRetrievePrompt');
 const { success, error } = require('../chalkLibrary');

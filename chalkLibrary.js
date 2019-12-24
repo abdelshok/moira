@@ -3,12 +3,13 @@
 
 const chalk = require('chalk');
 
-const error = chalk.yellow.bold;
-const neutral = chalk.blue.bold;
-const success = chalk.green.bold;
-const important = chalk.magenta.bold;
-const major = chalk.red.bold;
+const error = chalk.yellow;
+const neutral = chalk.blue;
+const success = chalk.green;
+const important = chalk.magenta;
+const major = chalk.red;
 const light = chalk.red.cyan;
+const purpleBold = chalk.blue.bold;
 
 module.exports = {
     error,
@@ -17,4 +18,5 @@ module.exports = {
     important,
     major,
     light,
+    purpleBold,
 };

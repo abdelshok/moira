@@ -17,6 +17,8 @@ require('dotenv').config();
 //     measurementId: process.env.FIREBASE_MEASUREMENT_ID
 // };
 
+const firebase = require('firebase');
+
 // Your web app's Firebase configuration
 var firebaseConfig = {
     apiKey: "AIzaSyDWPhI_9mRgvL9xf80f8874gdP7fjETw3c",
@@ -29,5 +31,7 @@ var firebaseConfig = {
     measurementId: "G-LBX4VF54JH"
 };
 
+// Initialize firebase with the correct credentials
+firebase.initializeApp(firebaseConfig);
 
-module.exports.firebaseConfig = firebaseConfig;
+module.exports.firebase = firebase;

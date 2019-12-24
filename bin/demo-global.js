@@ -1,5 +1,5 @@
 #!/usr/bin/env node
 
-const myLibrary = require('../index.js');
+const { runMoira } = require('../index.js');
 
-myLibrary.runMoira();
+runMoira();

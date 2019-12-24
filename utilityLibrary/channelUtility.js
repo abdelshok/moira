@@ -52,7 +52,7 @@ function reformatChannelArray(channelArray) {
             let currentChannelElement = channelArray[i];
             let channelName = currentChannelElement[0];
             let channelCount = currentChannelElement[1];
-            const newString =  `⛩   ${channelName} 🌔  ${channelCount} participants 🐵`
+            const newString =  `⛩   ${channelName}  🐵 ${channelCount} participants `
             arrayOfFormattedChannels.push(newString);
         }
         return arrayOfFormattedChannels;

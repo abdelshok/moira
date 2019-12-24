@@ -1,44 +1,46 @@
-// Prompt that imports both the connectPrompt, which connects the user to the chat feed, and the message
-// Prompt, which enables users to send messages to the feed. 
+// MessageOrConnectPrompt 
+// Prompt that allows the user of the app to decide to connect to the channel's
+// message board and see the incoming messages or to message
 
-let connectOption = 'Connect to Channel Feed';
-let messageOption = 'Message';
-let retrieveChannelsOption = 'Retrieve Available Channels'
+// External Packages
+const clear = require('clear');
 
 // Internal Modules
 const { connectPrompt } = require('./connectPrompt');
 const { inputHandlePrompt } = require('./messagePrompt');
-const { getChannelListPrompt } = require('./getChannelListPrompt');
 
-let messageOrConnectPrompt = (email) => {
+// Constants
+let connectOption = 'Connect to channel feed & receive messages';
+let messageOption = 'Message on channel';
+
+let messageOrConnectPrompt = (email, chosenChannel, channelUrl, username) => {
     const questions = [
         {
             name: 'userChoice',
-            message: 'Pick your poison 💀',
+            message: '\n Make your pick. \n \n Picking the first option will allow you to see the incoming messages. \n \n Picking the second option will allow you to message on the channel. \n \n This therefore means that you need to have two windows open on this channel: one to send messages and one to receive incoming messages. \n',
             type: 'list',
             choices: [
                 `${connectOption}`,
                 `${messageOption}`,
-                `${retrieveChannelsOption}`,
+
             ]
         }
     ]
     inquirer.prompt(questions).then((answer) => {
-        let {userChoice} = answer;
+        let { userChoice } = answer;
         if (userChoice === connectOption) {
-            connectPrompt(email);
+            clear();
+            connectPrompt(email, chosenChannel, channelUrl, username);
         } else if (userChoice === messageOption) {
-            inputHandlePrompt(email);
-        } else if (userChoice === retrieveChannelsOption) {
-            getChannelListPrompt();
+            clear();
+            inputHandlePrompt(email, chosenChannel, channelUrl, username);
         }
     })
 }
 
 module.exports = {
-    messageOrConnectPrompt,
+    messageOrConnectPrompt
 }
-
 
 // External Modules
 const inquirer = require('inquirer');

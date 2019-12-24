@@ -1,13 +1,39 @@
-// Prompt for login UX
+// Prompt for Login UX 
 
 'use strict';
 
-// Firebase App (the core Firebase SDK) is always required and
-// must be listed before other Firebase SDKs
-//const firebase = require('../modules/firebase');
+//// External Packages
+const clear = require('clear');
+//// Internal Modules
+const { firebase } = require('../configurations/firebaseConfig');
+// Firebase-related initializations or requires
+require("firebase/firestore");
+const db = firebase.firestore(); // Database
 
-const firebase = require('firebase');
 
+//// Firebase Functions 
+
+// Function @retrieveUsernameFromFirebase
+// Takes one parameter and returns a username string
+// - email: string parameters
+const retrieveUsernameFromFirebase = (email) => {
+    if (email == '') {
+        return false;
+    } else {
+        // #toFigureOut: Add logging for if the email is not of the correct format ?
+        db.collection('users').doc(email)
+        .get()
+        .then((querySnapshot) => {
+            const userData = querySnapshot.data();
+            const { username } = userData;
+            // CreateOrRetrievePrompt should be called under here when the call is successful
+            createOrRetrievePrompt(email, username);
+        })
+        .catch((returnedError) => {
+            console.log(error('Error encountered within retrieveUsernameFromFirebase function', returnedError));
+        });
+    }
+}
 let loginPrompt = () => {
     const questions = [ {
         name: 'email',
@@ -25,8 +51,8 @@ let loginPrompt = () => {
         .then(() => {
             console.log(success('User successfully logged into Firebase.'));
             try {
-                console.log('Email passed to the inputHandlePrompt', email);
-                messageOrConnectPrompt(email);
+                clear();
+                retrieveUsernameFromFirebase(email);
             } catch (err) {
                 console.log(error('Input email prompt function call-related error'));
             }
@@ -48,4 +74,4 @@ module.exports = {
 const inquirer = require('inquirer');
 const { error, success } = require('../chalkLibrary');
 const { inputHandlePrompt } = require('./messagePrompt');
-const { messageOrConnectPrompt } = require('./messageOrConnectPrompt');
+const { createOrRetrievePrompt } = require('./createOrRetrievePrompt');
