@@ -92,7 +92,7 @@ let showChannelListPrompt = async (channelArray, email, username) => {
         {
             name: 'chosenChannelName',
             type: 'list',
-            message: 'Choose from list of channels: \n \n',
+            message: 'Use the arrow keys to navigate through the list of channels: \n \n',
             choices: newChannelArray,
         }
     ]

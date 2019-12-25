@@ -27,20 +27,14 @@ const addUsernameAndEmailToFirebase = (username, email) => {
     if (username == '' &&  email == '') {
         return false; 
     } else {
-        // #toDisable
-        console.log('Username and email will be stored in the corresponding database');
+        // Retrieves username from 'Users' database in Firestore
         db.collection('users').doc(email).set({
             username: username
         })
         .then(() => {
-            // #toDisable
-            console.log('Username and email successfully added to the database');
-            // after this, you call the next function and pass it the username, and you also
-            // get rid of the user name prompt,
+            // Triggers the corresponding prompt which allows the user to either create a channel
+            // or retrieve a list of open channels
             createOrRetrievePrompt(email, username);
-            // after that, what you do is that during the login you actually fetch the databsae
-            // and try to get the user login
-
         })
         .catch((returnedError) => {
             console.error('Error caught within addUsernameAndEmailToFirebase function', returnedError);
@@ -74,13 +68,11 @@ let usernamePrompt = (email) => {
         {
             name: 'username',
             type: 'input',
-            message: "Now enter your username, bruh. 👀"
+            message: "Now enter your username. 👀"
         }
     ]
     inquirer.prompt(questions).then((answer) => {
         const { username } = answer;
-        // #todisable
-        console.log(`Username chosen is ${username}`);
         followUpPasswordPrompt(email, username);
     })
 }
@@ -112,7 +104,7 @@ let passwordConfirmationPrompt = (email, password, username) => {
         {
             name: 'confirmationPassword',
             type: 'password',
-            message: 'Please type your password again for confirmation'
+            message: 'Please type your password again for validation. 🔥'
         }
     ]
     inquirer.prompt(questions).then((answer) => {
@@ -124,9 +116,12 @@ let passwordConfirmationPrompt = (email, password, username) => {
                 console.log(success('Account creation and connection successful'));
                 try {
                     console.log(important('Successful connection'));
-                    // #toDisable
-                    console.log('Calling function that will add username to firestore');
-                    addUsernameAndEmailToFirebase(username, email);
+
+                    setTimeout(() => {
+                        clear();
+                        addUsernameAndEmailToFirebase(username, email);
+                    }, 1000) 
+                    
                 } catch(err) {
                     console.log(error('Unsuccessful connection to SB.'))
                 }

@@ -1,4 +1,5 @@
-// Prompt to send or receive message
+// Prompt to receive message
+// #toDo: Change the name to receive messages, this is too unrelated
 
 // External Packages
 const clear = require('clear');
@@ -31,7 +32,7 @@ let connectPrompt = (email, channelName, channelUrl, username) => {
                         console.log('Channel unsuccessfully entered.')
                         return;
                     }
-                    console.log(purpleBold('Channel successfully entered. Messages will appear below'))
+                    console.log(purpleBold('Channel successfully entered. Messages will appear below.'))
                     var ChannelHandler = new SB.ChannelHandler();
                     ChannelHandler.onMessageReceived = (url, messageObject) => {
                         let { message } = messageObject;
@@ -41,7 +42,7 @@ let connectPrompt = (email, channelName, channelUrl, username) => {
                         let currentColor = arrayOfMessageColors[counter];
                         counter++;
                         counter == lengthArray ? counter = 0 : counter;
-                        console.log(currentColor(finalMessage));
+                        console.log(currentColor(userId) + ': ' + message);
                     }; // Channel handler needs to have unique id
                     SB.addChannelHandler(channelName, ChannelHandler); // NewFeature: Use a cryptographic module here to prevent collisions
                     // or create your own it's actually kind of fun.

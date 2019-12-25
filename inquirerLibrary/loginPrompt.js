@@ -38,11 +38,11 @@ let loginPrompt = () => {
     const questions = [ {
         name: 'email',
         type: 'input',
-        message: 'Please enter your email address or username and press enter 👽'
+        message: 'Please enter your email address and press enter 👹'
     }, {
         name: 'password',
         type: 'password',
-        message: 'Please type in your password 👀'
+        message: 'Please type in your password and press enter 🙈'
     }
     ]
     inquirer.prompt(questions).then((answer)=> {

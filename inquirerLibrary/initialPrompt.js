@@ -2,11 +2,14 @@
 
 'use strict';
 
+// External Packages
+const clear = require('clear');
+
 let initialPrompt = () => {
     const questions = [
         {
             name: 'WelcomeUserPrompt',
-            message: 'Welcome to Moira \n \n 🌙 \n \n \n Please press enter. \n'
+            message: 'LMFAO \n \n 🙊 \n \n 🙉 \n \n 🙈 \n \n \n Your one and only chat app for the terminal. Please press enter. \n'
         }
     ]
     inquirer.prompt(questions).then(() => {
@@ -19,7 +22,7 @@ let userOptionsPrompt = () => {
         {
             name: 'initialUserSelection',
             type: 'list',
-            message: "Pick your poison 💀",
+            message: "Make your pick 💀 \n",
             choices: [
                 'Login',
                 'Sign Up'
@@ -30,9 +33,11 @@ let userOptionsPrompt = () => {
         const { initialUserSelection } = answer;
         if (initialUserSelection === 'Login') {
             // Login Prompts
+            clear();
             loginPrompt();
         } else if (initialUserSelection === 'Sign Up') {
             // Sign up prompts
+            clear();
             signUpPrompt();
         } 
     })

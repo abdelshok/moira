@@ -6,7 +6,6 @@ None of the conversations are stored anywhere, unlike an application I will not 
 
 Rock on.
  
-
 On a more serious note: 
 
 This is the first prototype. Some specs might change, the details are still being worked on.
