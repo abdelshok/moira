@@ -1,7 +1,7 @@
 {
-  "name": "moira",
-  "version": "1.0.0",
-  "description": "Chat app for terminal",
+  "name": "lmfao",
+  "version": "0.0.1",
+  "description": "Your favorite chat app for the terminal",
   "main": "./index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,7 +11,7 @@
     "url": "git+https://github.com/abdelshok/moira.git"
   },
   "keywords": [
-    "moira",
+    "lmfao",
     "chat",
     "terminal",
     "app"
@@ -34,7 +34,7 @@
     "sendbird-nodejs": "^1.0.0"
   },
   "bin": {
-    "moira": "./bin/demo-global.js"
+    "lmfao": "./bin/demo-global.js"
   },
   "preferGlobal": true
 }
