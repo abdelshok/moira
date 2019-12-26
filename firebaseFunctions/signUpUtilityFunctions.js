@@ -7,7 +7,7 @@
 
 // Firebase already initialized in configurations folder 
 // Import here all of the necessary initializations to make it working
-require("firebase/firestore");
+// require("firebase/firestore");
 const firebase = require('../configurations/firebaseConfig');
 const db = firebase.firestore();
 

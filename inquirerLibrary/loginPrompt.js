@@ -7,7 +7,7 @@ const clear = require('clear');
 //// Internal Modules
 const { firebase } = require('../configurations/firebaseConfig');
 // Firebase-related initializations or requires
-require("firebase/firestore");
+//require("firebase/firestore");
 const db = firebase.firestore(); // Database
 
 

@@ -13,7 +13,7 @@ const { postCreateChannelPrompt } = require('./postCreateChannelPrompt');
 const clear = require('clear');
 const { firebase } = require('../configurations/firebaseConfig');
 
-require("firebase/firestore");
+//require("firebase/firestore");
 
 // Constants
 // Firebase Database

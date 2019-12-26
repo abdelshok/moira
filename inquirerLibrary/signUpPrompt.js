@@ -9,7 +9,7 @@ const clear = require('clear');
 
 // Initialization
 const { firebase } = require('../configurations/firebaseConfig');
-require("firebase/firestore");
+//require("firebase/firestore");
 const db = firebase.firestore();
 
 // Firebase Functions (below)
@@ -19,12 +19,12 @@ const db = firebase.firestore();
 // folders would make the relationship between the firebase and inquirer functions unclear.
 // In this case, we sacrificed organization for the sake of clarity. Or did we?
 
-// Function @addUsernameAndEmailToFirebase
-// Two parameters:
+// @addEmailKeyAndUsernameToFirebase
+// Inputs (2):
 // - username: string
 // - email: string
-const addUsernameAndEmailToFirebase = (username, email) => {
-    if (username == '' &&  email == '') {
+const addEmailKeyAndUsernameToFirebase = (username, email) => {
+    if (username == '' ||  email == '') {
         return false; 
     } else {
         // Retrieves username from 'Users' database in Firestore
@@ -34,10 +34,63 @@ const addUsernameAndEmailToFirebase = (username, email) => {
         .then(() => {
             // Triggers the corresponding prompt which allows the user to either create a channel
             // or retrieve a list of open channels
+            addUsernameKeyAndEmailToFirebase(username, email);
+        })
+        .catch((returnedError) => {
+            console.error('Error caught within addEmailKeyAndUsernameToFirebase function', returnedError);
+        })
+    }
+}
+
+// @addUsernameKeyAndEmailToFirebase
+// Inputs (2):
+// - username: string
+// - email: string
+const addUsernameKeyAndEmailToFirebase = (username, email) => {
+    if (username == '' || email == '') {
+        return false;
+    } else {
+        db.collection('username_list').doc(username).set({
+            email: email
+        })
+        .then(() => {
+            // console.log('Username correctly added to username list');
+            // Only call the prompt when both the username and email have been added to the two
+            // different databases
             createOrRetrievePrompt(email, username);
         })
         .catch((returnedError) => {
-            console.error('Error caught within addUsernameAndEmailToFirebase function', returnedError);
+            console.error(error('Username not added to username_list', returnedError));
+        })
+    }
+}
+
+// @findIfUsernameExists
+// Queries the Firebase database to determine whether or not the username already exists
+// Input (1):
+// - username (string)
+// Output: 
+// - None. Calls the correct functions in the scenario that the username exists and the case
+// where the username does not exist
+function findIfUsernameExists(email, username) {
+    if (username == '') {
+        return false;
+    } else {
+        // Retrieves whether the username exists or not
+        db.collection('username_list').doc(username)
+        .get()
+        .then((querySnapshot) => {
+            const userData = querySnapshot.data();
+            const { username } = userData;
+            console.log(major('Username already exists please choose a different username'));
+            usernamePrompt(email, username);
+        })
+        .catch(() => {
+            // If an error is reached, then the username does not exist in the database
+            // therefore, we can move to the next step: password validation.
+            // #toDisable
+            // console.error(success('Username does not exist yet'));
+            followUpPasswordPrompt(email, username);
         })
     }
 }
@@ -73,7 +126,7 @@ let usernamePrompt = (email) => {
     ]
     inquirer.prompt(questions).then((answer) => {
         const { username } = answer;
-        followUpPasswordPrompt(email, username);
+        findIfUsernameExists(email, username);
     })
 }
 
@@ -119,9 +172,9 @@ let passwordConfirmationPrompt = (email, password, username) => {
 
                     setTimeout(() => {
                         clear();
-                        addUsernameAndEmailToFirebase(username, email);
+                        addEmailKeyAndUsernameToFirebase(username, email);
                     }, 1000) 
-                    
+
                 } catch(err) {
                     console.log(error('Unsuccessful connection to SB.'))
                 }
@@ -146,14 +199,14 @@ let passwordConfirmationPrompt = (email, password, username) => {
 
 module.exports = {
     signUpPrompt,
-    addUsernameAndEmailToFirebase, // Exported here so that we can do some testing later 
+    addEmailKeyAndUsernameToFirebase, // Exported here so that we can do some testing later 
 }
 
 // External Modules
 const inquirer = require('inquirer');
 // Internal Modules
 //const { firebase } = require('../index.js')
-const { error, success, important } = require('../chalkLibrary');
+const { error, success, important, major } = require('../chalkLibrary');
 const { validateEmail } = require('../utilityLibrary/generalUtility');
 const { createOrRetrievePrompt } = require('./createOrRetrievePrompt');
 const { initialPrompt } = require('./initialPrompt')

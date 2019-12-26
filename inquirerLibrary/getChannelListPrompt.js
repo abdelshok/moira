@@ -16,29 +16,35 @@ const { findChannelName } = require('../utilityLibrary/getChannelUtility');
 // Inquirer-CLI-related prompts
 const { messageOrConnectPrompt } = require('./messageOrConnectPrompt');
 
-
 // Firebase-related initializations
-require("firebase/firestore");
+//require("firebase/firestore");
 const db = firebase.firestore(); // Database
 
 // Firebase Function
-// As the name suggests, calls the next inquirer with the correct URL once it returns true 
+
+// @findChannelUrlInFirebase
+// Queries the firebase database with the channel name in order to find the channel's URL on sendbird
+// Input: 
+// - channelString
+// - email (string): passed down to the next function
+// - username (string): like the above, passed down to the next function in order to connect the user
+// to the sendbird API correctly
+// Output:
+// - None. Simply calls the messageOrConnectPrompt() function with the found URL.
 const findChannelUrlInFirebase = (channelString, email, username) => {
-    db.collection('existing_channels') // Querying for specific channeld doesn't work yet: where('channel_name', '==', channelName)
+    db.collection('existing_channels')
     .get()
     .then((querySnapshot) => {
         querySnapshot.forEach(function(doc) {
-            // doc.data() is never undefined for query doc snapshots
-            // console.log(doc.id, " => ", doc.data());
+            // Allows us to access the data
             const data =  doc.data();
             let { channel_name, channel_url } = data;
-            // console.log('Channel name is ', channel_name);
+            // Takes the channel description (ie. ⛩ asap_mob  🐵 0 participants) and returns the 
+            // channel name (ie. "asap_mob")
             let newChannelName = findChannelName(channelString)
-            // console.log('Chosen channel name by user', newChannelName);
-            if (channel_name === newChannelName) { // Then we found channel url
-                // Call inquirer here
-                // #toDisable
-                // console.log('Connecting to channel with url' , channel_url);
+            // When the channel name matches the one we're looking for, then we pass the url to the 
+            // messageOrConnectPrompt
+            if (channel_name === newChannelName) { 
                 clear();
                 messageOrConnectPrompt(email, newChannelName, channel_url, username); // needs to be passed actual name and url
             }
@@ -57,20 +63,21 @@ let getChannelListPrompt =  (email, username) => {
             type: 'confirm'
         }
     ]
-    // #toDo: sometimes you connect on sendbird with the nickName (username is better word) and sometimes
-    // you do it with the email. Decide. Be consistent motherfucker. 
     inquirer.prompt(questions).then((answer) => {
         const { retrieveChannel } = answer;
         // #toDisable
         console.log(neutral('Connecting to servers'));
-        // console.log(`Going to connect to sendbird with username ${email}`);
-        // TODELETE (above): nickname constant
+        
         // Note to self and to anyone in the future: it doesn't specify it in the Sendbird
         // API but you end to always initially connect to sendbird before making any operations
         // like querying the list of open channels, etc.
+
+        // The first connection to Sendbird is with the user email (the username could also be used)
+        // All the following connections are done with the user name. 
+        // #foodForThought: might be better to be consistent and only use the email? 
+        // Would increase privacy. 
         SB.connect(email, (user, error) => {
             let openChannelListQuery = SB.OpenChannel.createOpenChannelListQuery();
-
             openChannelListQuery.next(function(openChannels, error) {
                 if (error) {
                     return;
@@ -78,7 +85,7 @@ let getChannelListPrompt =  (email, username) => {
                 // Array returned which we'll pass to the next inquirer prompt to display
                 // the list of the new channels the user can choose from
                 const openChannelArray = findChannelCountAndUrl(openChannels);
-                clear();
+                clear(); // Clears the CLI for more visual clarity
                 showChannelListPrompt(openChannelArray, email, username);
             });
         })
