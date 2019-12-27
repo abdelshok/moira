@@ -22,20 +22,20 @@ const db = firebase.firestore();
 // Firebase Functions
 // Kept here because it atually calls the correct inquirer prompt when data
 // is successfully added 
-const addNewChannelToFirebase = async (channelName, channelUrl, email) => {
+const addNewChannelToFirebase = async (channelName, channelUrl, email, username) => {
     db.collection('existing_channels').add({
         channel_url: channelUrl,
         channel_name: channelName,
     }).then((docRef) => {
         // #toDisable
         console.log(success('Channel URL stored successfully in Firestore'));
-        postCreateChannelPrompt(channelName, email, channelUrl);
+        postCreateChannelPrompt(channelName, email, channelUrl, username);
     }).catch((err) => {
         console.error('Error adding document: ', err);
     })
 }
 
-let createChannelPrompt = (email) => {
+let createChannelPrompt = (email, username) => {
     const question = [
         {
             name: 'nameOfChannel',
@@ -46,11 +46,11 @@ let createChannelPrompt = (email) => {
     inquirer.prompt(question).then((answer) => {
         let {nameOfChannel} = answer;
         console.log(`Channel name chosen is ${nameOfChannel}`);
-        choosePublicOrPrivatePrompt(nameOfChannel, email);
+        choosePublicOrPrivatePrompt(nameOfChannel, email, username);
     })
 }
 
-let choosePublicOrPrivatePrompt = (nameOfChannel, email) => {
+let choosePublicOrPrivatePrompt = (nameOfChannel, email, username) => {
     const question = [
         {
             name: 'channelType',
@@ -76,12 +76,12 @@ let choosePublicOrPrivatePrompt = (nameOfChannel, email) => {
             }, 5000);
         } else if (channelType === 'Public') {
             // Calls the prompt that allows us to create an open channel (below this function)
-            createChannelWithSendbird(nameOfChannel, email);
+            createChannelWithSendbird(nameOfChannel, email, username);
         }
     })
 }
 
-let createChannelWithSendbird = async (nameOfChannel, email)  => {
+let createChannelWithSendbird = async (nameOfChannel, email, username)  => {
     SB.connect(email, (connectedUser, err) => {
         SB.OpenChannel.createChannel(nameOfChannel, '', '', [], '', function (openChannel, err) {
             if (err) {
@@ -94,7 +94,7 @@ let createChannelWithSendbird = async (nameOfChannel, email)  => {
 
             // #toChange --> Firebase Db permissions
             // Call Firebase Function that adds the channel name and url to the Firebase database
-            addNewChannelToFirebase(nameOfChannel, url, email)
+            addNewChannelToFirebase(nameOfChannel, url, email, username)
         });
     })
 }

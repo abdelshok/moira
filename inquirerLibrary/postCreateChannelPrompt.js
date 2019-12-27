@@ -9,7 +9,7 @@ const { success, neutral, error } = require('../chalkLibrary');
 const { getChannelListPrompt } = require('./getChannelListPrompt');
 const { messageOrConnectPrompt } = require('./messageOrConnectPrompt');
 
-let postCreateChannelPrompt = (newChannelName, email, channelUrl) => {
+let postCreateChannelPrompt = (newChannelName, email, channelUrl, username) => {
     const goToChannel = `Go to ${newChannelName} channel`;
     const retrieveChannels = 'Retrieve list of available channels';
 

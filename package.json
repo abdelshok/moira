@@ -31,7 +31,8 @@
     "firebase": "^7.5.0",
     "inquirer": "^7.0.0",
     "sendbird": "^3.0.112",
-    "sendbird-nodejs": "^1.0.0"
+    "sendbird-nodejs": "^1.0.0",
+    "twilio": "^3.39.1"
   },
   "bin": {
     "lmfao": "./bin/demo-global.js"

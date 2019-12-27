@@ -6,11 +6,12 @@
 // Input:
 // channelString: ie. "⛩   asap_mob  🐵 0 participants "
 // Output: 
-// channel name (as a string)
+// channel name. ie. ('asap_mob')
 function findChannelName (channelString) {
     if (channelString == "") {
         return false
     } else {
+        let splitChannelStringArray = channelString.split(" ");
         // Channel name is always fourth string
         // Needs to be modified to be consistent. Either one or two spaces. 
         let channelName = splitChannelStringArray[3];
