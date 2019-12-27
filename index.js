@@ -1,8 +1,6 @@
 // index.js file is the entry point for the program
 'use strict';
 
-console.log(process.env);
-
 // External Packages
 // const firebase = require('firebase');
 const clear = require('clear');
