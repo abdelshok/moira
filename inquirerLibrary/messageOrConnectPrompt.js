@@ -9,7 +9,7 @@ const clear = require('clear');
 const { connectPrompt } = require('./connectPrompt');
 const { handleUserMessageInputPrompt } = require('./messagePrompt');
 // Twilio-related
-const { notifyGodUserIsOnline } = require('../twilio/sendSMS');
+// const { notifyGodUserIsOnline } = require('../twilio/sendSMS');
 
 // Constants
 let connectOption = 'Connect to channel feed & receive messages';
@@ -19,7 +19,7 @@ let messageOrConnectPrompt = (email, chosenChannelName, channelUrl, username, ch
 
     clear();
     // Notifies God Admin that user is online and passes in user data
-    notifyGodUserIsOnline(email, username, chosenChannelName);
+    // notifyGodUserIsOnline(email, username, chosenChannelName);
     const questions = [
         {
             name: 'userChoice',
