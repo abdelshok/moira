@@ -1,8 +1,14 @@
 // Prompt to send messages to users
 
-const { SB } = require('../configurations/sendbird');
+const { openSB } = require('../configurations/sendbirdOpen');
+const { privateSB } = require('../configurations/sendbirdPrivate');
 
-let inputHandlePrompt = (email, chosenChannel, channelUrl, username) => {
+let handleUserMessageInputPrompt = (email, chosenChannel, channelUrl, username, channelType) => {
+
+    // Configure the correct SB account here based on the channel type
+    let SB = channelType === 'open' ? openSB : privateSB;
+    // #major: for some reason connecting to private channel sometimes causes bug and sometimes does not
+
     const questions = [
         {
             name: 'connectToChatConfirmation',
@@ -16,11 +22,13 @@ let inputHandlePrompt = (email, chosenChannel, channelUrl, username) => {
         // how to implement nickname later
 
         // Temporary new implementation connects the user to the sendbird API with the user name
-        SB.connect(username, (user, error) => {
-            if (error) {
-                console.log('Error encountered while connecting to SB');
+        SB.connect(username, (user, error) => { 
+
+            if (error) { // hint: 'exitexitexit'
+                console.log('Error encountered while connecting to SB in @handleUserMessageInputPrompt');
                 return;
             };
+
             SB.OpenChannel.getChannel(channelUrl) // Connects you to the correct channel to chat
             .then((openChannel, error) => {
                 openChannel.enter((response, error) => {
@@ -74,7 +82,7 @@ let inputMessagePrompt = (openChannel, email) => {
 }
 
 module.exports = {
-    inputHandlePrompt,
+    handleUserMessageInputPrompt,
     inputMessagePrompt,
 }
 

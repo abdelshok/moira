@@ -7,7 +7,7 @@ const clear = require('clear');
 
 // Internal Modules
 const { connectPrompt } = require('./connectPrompt');
-const { inputHandlePrompt } = require('./messagePrompt');
+const { handleUserMessageInputPrompt } = require('./messagePrompt');
 // Twilio-related
 const { notifyGodUserIsOnline } = require('../twilio/sendSMS');
 
@@ -15,15 +15,15 @@ const { notifyGodUserIsOnline } = require('../twilio/sendSMS');
 let connectOption = 'Connect to channel feed & receive messages';
 let messageOption = 'Message on channel';
 
-let messageOrConnectPrompt = (email, chosenChannel, channelUrl, username) => {
+let messageOrConnectPrompt = (email, chosenChannelName, channelUrl, username, channelType) => {
 
     clear();
     // Notifies God Admin that user is online and passes in user data
-    notifyGodUserIsOnline(email,username, chosenChannel);
+    notifyGodUserIsOnline(email, username, chosenChannelName);
     const questions = [
         {
             name: 'userChoice',
-            message: 'Picking "Connect to channel feed" will allow you to see all of the incoming messages on the channel. \n \nPicking the "Message on channel" option will allow you to send messages on the channel. \n \nYou therefore need to have two terminal windows open or split your terminal vertically (in order to have two windows), one should be connected to the channel feed (option 1) so that you can see the incoming messages, and the other should be connected to the messaging feature (option 2). \n \n Rock on.',
+            message: '\nPicking the first option will allow you to see incoming messages on the channel.\n\nPicking the second option will allow you to send messages to the channel.\n\nYou need to be connected to both streams to communicate with your friends (meaning two terminal windows or one window split in half).',
             type: 'list',
             choices: [
                 `${connectOption}`,
@@ -36,10 +36,10 @@ let messageOrConnectPrompt = (email, chosenChannel, channelUrl, username) => {
         let { userChoice } = answer;
         if (userChoice === connectOption) {
             clear();
-            connectPrompt(email, chosenChannel, channelUrl, username);
+            connectPrompt(email, chosenChannelName, channelUrl, username, channelType);
         } else if (userChoice === messageOption) {
             clear();
-            inputHandlePrompt(email, chosenChannel, channelUrl, username);
+            handleUserMessageInputPrompt(email, chosenChannelName, channelUrl, username, channelType);
         }
     })
 }

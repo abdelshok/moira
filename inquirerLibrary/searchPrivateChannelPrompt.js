@@ -10,6 +10,10 @@ const { messageOrConnectPrompt } = require('./messageOrConnectPrompt');
 const { firebase } = require('../configurations/firebaseConfig');
 const db = firebase.firestore();
 
+// Constants
+// #toDo: move the 'private' channel vs. open in process.env to make it global
+const privateChannel = 'private';
+
 // Firebase functions 
 
 // @findIfChannelExists 
@@ -49,7 +53,7 @@ let typeInPrivateChannelNamePrompt = (email, username) => {
     const questions = [
         {
             name: 'privateChannelName',
-            message: 'Type in the name of the private channel',
+            message: 'Type in the name of the private channel 🌍',
             type: 'input'
         }
     ]
@@ -65,7 +69,7 @@ let typeInPrivateChannelPassword = (channelName, channelUrl, channelPassword, em
     const questions = [
         {
             name: 'typedInPassword',
-            message: 'Now type in the password of the channel to enter it',
+            message: 'Now type in the password of the channel to enter it 🙉',
             type: 'password',
         }
     ]
@@ -76,7 +80,7 @@ let typeInPrivateChannelPassword = (channelName, channelUrl, channelPassword, em
             // Passwords match, so now we don't need to pass it down anymore, the only information
             // we need to be able to connect to the channel is the user email, the channel name, the channel url
             // and the username 
-            messageOrConnectPrompt(email, channelName, channelUrl, username);
+            messageOrConnectPrompt(email, channelName, channelUrl, username, privateChannel);
         } else {
             console.log(error('Password entered is incorrect'));
             typeInPrivateChannelPassword(channelName, channelUrl, channelPassword, email, username);

@@ -7,7 +7,8 @@
 
 // External Packages
 // Internal Modules
-const { SB } = require('../configurations/sendbird');
+const { openSB } = require('../configurations/sendbirdOpen');
+const { privateSB } = require('../configurations/sendbirdPrivate');
 const { success, neutral, error } = require('../chalkLibrary'); // We import the success type of log in order to use it to notify the user the channel is created successfully
 const { postCreateChannelPrompt } = require('./postCreateChannelPrompt');
 const clear = require('clear');
@@ -19,8 +20,8 @@ const { firebase } = require('../configurations/firebaseConfig');
 
 // These two variables are passed down to the @createChanneLWithSendbird function
 // at the end of the file in order to let it know whether the channel create is going
-// to be public or private
-const publicChannel = 'public'
+// to be open or private
+const openChannel = 'open'
 const privateChannel = 'private'
 
 // Firebase Database
@@ -37,8 +38,8 @@ const addOpenChannelToFirebase = async (channelName, channelUrl, email, username
         setTimeout(() => {
             clear();
             setTimeout(() => {
-                postCreateChannelPrompt(channelName, email, channelUrl, username);
-            }, 1000)
+                postCreateChannelPrompt(channelName, email, channelUrl, username, openChannel); // Might be bad to
+            }, 1000) // have constants here for openChannel and privateChannel
         }, 0)
     }).catch((err) => {
         console.error('Error adding document: ', err);
@@ -55,11 +56,15 @@ const addPrivateChannelToFirebase = async(channelName, channelUrl, email, userna
         // #toDisable
         console.log(success('Private channel successfully created'));
         setTimeout(() => {
-            postCreateChannelPrompt(channelName, email, channelUrl, username);
+            // Either way the above function @addOpenChannelToFirebase and this one
+            // will call the @postCreateChannelPrompt with the correct URLs
+
+            postCreateChannelPrompt(channelName, email, channelUrl, username, privateChannel);
         }, 1000)
     }, 0)
 }
 
+// Function 1
 let createChannelPrompt = (email, username) => {
     const question = [
         {
@@ -70,18 +75,20 @@ let createChannelPrompt = (email, username) => {
     ]
     inquirer.prompt(question).then((answer) => {
         let {nameOfChannel} = answer;
-        choosePublicOrPrivatePrompt(nameOfChannel, email, username);
+        chooseOpenOrPrivate(nameOfChannel, email, username);
     })
 }
 
-let choosePublicOrPrivatePrompt = (nameOfChannel, email, username) => {
+
+// Function 2
+let chooseOpenOrPrivate = (nameOfChannel, email, username) => {
     const question = [
         {
             name: 'channelType',
             message: 'What kind of channel do you want to create? A private channel will require you to create a password',
             type: 'list',
             choices: [
-                'Public',
+                'Open',
                 'Private',
             ]
         }
@@ -90,13 +97,14 @@ let choosePublicOrPrivatePrompt = (nameOfChannel, email, username) => {
         const { channelType } = answer;
         if (channelType === 'Private') {
             typeInPrivateChannelPasswordPrompt(nameOfChannel, email, username);
-        } else if (channelType === 'Public') {
+        } else if (channelType === 'Open') {
             // Calls the prompt that allows us to create an open channel (below this function)
-            createChannelWithSendbird(nameOfChannel, email, username, publicChannel);
+            createChannelWithSendbird(nameOfChannel, email, username, openChannel);
         }
     })
 }
 
+// Function 3A
 let typeInPrivateChannelPasswordPrompt = (nameOfChannel, email, username) => {
     const questions = [
         {
@@ -111,30 +119,62 @@ let typeInPrivateChannelPasswordPrompt = (nameOfChannel, email, username) => {
     })
 }
 
-let createChannelWithSendbird = async (nameOfChannel, email, username, typeOfChannel, password)  => {
-    SB.connect(email, (connectedUser, err) => {
-        SB.OpenChannel.createChannel(nameOfChannel, '', '', [], '', function (openChannel, err) {
+
+// @createOpenChannel
+// Function creates the channel within the first sendbird account ('SendbirdOpen') dedicated
+// to open channels
+// --> Used within @createChannelWithSendbird general function
+let createOpenChannel = (nameOfChannel, email, username) => {
+    openSB.connect(email, (connectedUser, err) => {
+        openSB.OpenChannel.createChannel(nameOfChannel, '', '', [], '', function (openChannel, err) {
             if (err) {
-                console.log(error('Could not create channel successfully'));
+                console.log(error('Could not create public channel successfully'));
                 // #toDo:  Go back to menu instead of returning
                 return
             }
 
             let { url } = openChannel;
 
-            if (typeOfChannel === 'open') {
-                // Call Firebase Function that adds the channel name and url to the Firebase database
-                // Open channels don't have password so no password argument in this function call
-                // (as opposed to below)
-                addOpenChannelToFirebase(nameOfChannel, url, email, username)
-            } else if (typeOfChannel === 'private') {
-                // Calls function that will add new private channel with related information: password, url
-                // to the firebase database
-                addPrivateChannelToFirebase(nameOfChannel, url, email, username, password);
-            }
-
+            // Call Firebase Function that adds the channel name and url to the Firebase database
+            // Open channels don't have password so no password argument in this function call
+            // (as opposed to below)
+            addOpenChannelToFirebase(nameOfChannel, url, email, username)
         });
     })
+}
+
+
+// @createPrivateChannel
+// Function that creates the channel within the second sendbird account ('SendbirdPrivate') dedicated to
+// private channels
+// --> Used like the function above within the @createchannelWithSendbird general function
+let createPrivateChannel = (nameOfChannel, email, username, password) => {
+    privateSB.connect(email, (connectedUser, err) => {
+        privateSB.OpenChannel.createChannel(nameOfChannel, '', '', [], '', function (openChannel, err) {
+            if (err) {
+                console.log(error('Could not create private channel successfully'));
+                // #toDo:  Go back to menu instead of returning
+                return
+            }
+
+            let { url } = openChannel;
+
+            // Adds private channel to private_channel_list database in firestore, for authentication later
+            // and also in order to retrieve channel URL when user tries to log in
+            addPrivateChannelToFirebase(nameOfChannel, url, email, username, password);
+        });
+    })
+}
+
+// Function 3B or 4
+let createChannelWithSendbird = async (nameOfChannel, email, username, channelType, password)  => {
+    console.log('About to create channel with Senbird');
+    console.log('Channel type', channelType);
+    if (channelType === 'open') {
+        createOpenChannel(nameOfChannel, email, username)
+    } else if (channelType === 'private') {
+        createPrivateChannel(nameOfChannel, email, username, password);
+    }
 }
 
 

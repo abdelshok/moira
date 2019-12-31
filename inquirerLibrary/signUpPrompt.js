@@ -176,7 +176,7 @@ let passwordConfirmationPrompt = (email, password, username) => {
                     }, 1000) 
 
                 } catch(err) {
-                    console.log(error('Unsuccessful connection to SB.'))
+                    console.log(error('Unsuccessful connection to openSB.'))
                 }
             })
             .catch(function(err) {

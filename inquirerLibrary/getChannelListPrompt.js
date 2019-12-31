@@ -7,48 +7,41 @@
 const clear = require('clear');
 //// Internal Modules
 const { firebase } = require('../configurations/firebaseConfig');
-const { success, neutral } = require('../chalkLibrary');
+const { success, neutral, lightNeonPurple, realRed} = require('../chalkLibrary');
 // Sendbird API 
-const { SB } = require('../configurations/sendbird');
+const { openSB } = require('../configurations/sendbirdOpen');
 // Utility functions
 const { findChannelCountAndUrl, reformatChannelArray } = require('../utilityLibrary/channelUtility');
 const { findChannelName } = require('../utilityLibrary/getChannelUtility');
 // Inquirer-CLI-related prompts
 const { messageOrConnectPrompt } = require('./messageOrConnectPrompt');
-
 // Firebase-related initializations
-//require("firebase/firestore");
-const db = firebase.firestore(); // Database
+const db = firebase.firestore(); 
+
+// Constants
+const openChannel = 'open';
 
 // Firebase Function
 
 // @findChannelUrlInFirebase
 // Queries the firebase database with the channel name in order to find the channel's URL on sendbird
 // Input: 
-// - channelString
+// - channelName
 // - email (string): passed down to the next function
 // - username (string): like the above, passed down to the next function in order to connect the user
 // to the sendbird API correctly
 // Output:
 // - None. Simply calls the messageOrConnectPrompt() function with the found URL.
 const findChannelUrlInFirebase = (channelString, email, username) => {
-    db.collection('existing_channels')
-    .get()
+    let channelName = findChannelName(channelString);
+    console.log('Channel selected is', channelName);
+    console.log('About to run the firebase call to find URL');
+    db.collection('open_channels_list').doc(channelName)
+    .get() // #toDo: put the database name within the process.env fil.get()
     .then((querySnapshot) => {
-        querySnapshot.forEach(function(doc) {
-            // Allows us to access the data
-            const data =  doc.data();
-            let { channel_name, channel_url } = data;
-            // Takes the channel description (ie. ⛩ asap_mob  🐵 0 participants) and returns the 
-            // channel name (ie. "asap_mob")
-            let newChannelName = findChannelName(channelString)
-            // When the channel name matches the one we're looking for, then we pass the url to the 
-            // messageOrConnectPrompt
-            if (channel_name === newChannelName) { 
-                clear();
-                messageOrConnectPrompt(email, newChannelName, channel_url, username); // needs to be passed actual name and url
-            }
-        });
+        const channelData = querySnapshot.data();
+        const { channelUrl } = channelData;
+        messageOrConnectPrompt(email, channelName, channelUrl, username, openChannel); 
     })
     .catch((err) => {
         console.log('Error found within findChannelUrlInFirebase fucntion', err);
@@ -66,7 +59,7 @@ let getChannelListPrompt =  (email, username) => {
     inquirer.prompt(questions).then((answer) => {
         const { retrieveChannel } = answer;
         // #toDisable
-        console.log(neutral('Connecting to servers'));
+        console.log(realRed('Connecting to servers'));
         
         // Note to self and to anyone in the future: it doesn't specify it in the Sendbird
         // API but you end to always initially connect to sendbird before making any operations
@@ -76,8 +69,8 @@ let getChannelListPrompt =  (email, username) => {
         // All the following connections are done with the user name. 
         // #foodForThought: might be better to be consistent and only use the email? 
         // Would increase privacy. 
-        SB.connect(email, (user, error) => {
-            let openChannelListQuery = SB.OpenChannel.createOpenChannelListQuery();
+        openSB.connect(email, (user, error) => {
+            let openChannelListQuery = openSB.OpenChannel.createOpenChannelListQuery();
             openChannelListQuery.next(function(openChannels, error) {
                 if (error) {
                     return;

@@ -10,6 +10,10 @@ const important = chalk.magenta;
 const major = chalk.red;
 const light = chalk.red.cyan;
 const purpleBold = chalk.blue.bold;
+const lightNeonGreen = chalk.hex('#18FF7D');
+const lightNeonPurple = chalk.hex('#BC13FE');
+const casualRed = chalk.hex('#FF3939');
+const realRed = chalk.hex('#FF0000');
 
 module.exports = {
     error,
@@ -19,4 +23,8 @@ module.exports = {
     major,
     light,
     purpleBold,
+    lightNeonGreen,
+    lightNeonPurple,
+    casualRed,
+    realRed,
 };

@@ -6,7 +6,7 @@
 
 let retrieveChannelsOption = 'Retrieve list of available open channels';
 let searchPrivateChannelOption = 'Search and join private channel';
-let createChannelOption = 'Create public or private channel';
+let createChannelOption = 'Create open or private channel';
 
 // Internal Modules
 const { getChannelListPrompt } = require('./getChannelListPrompt');
@@ -42,7 +42,7 @@ let createOrRetrievePrompt = (email, username) => {
 }
 
 module.exports = {
-    createOrRetrievePrompt,
+    createOrRetrievePrompt
 }
 
 

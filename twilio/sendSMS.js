@@ -26,8 +26,7 @@ function notifyGodUserIsOnline(userEmail, username, channelName) {
          to: `${godPhoneNumber}`
        })
       .then(message => console.log()); // console.log(message.sid
-}   
-
+}
 
 module.exports = {
     notifyGodUserIsOnline

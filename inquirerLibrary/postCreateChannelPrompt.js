@@ -1,22 +1,25 @@
 // postCreateChannelPrompt used to display a message that allows the user
-// to go to the newly channel created or to retrieve all of the public channel
+// to go to the newly channel created or to retrieve all of the open channel
 
 'use strict';
 
 // External Packages
 const clear = require('clear');
 // Internal Modules
-const { SB } = require('../configurations/sendbird');
+// APIs
+const { SB } = require('../configurations/sendbirdOpen');
+// Coloring for CLI
 const { success, neutral, error } = require('../chalkLibrary');
+// Inquirer Prompts
 const { getChannelListPrompt } = require('./getChannelListPrompt');
 const { messageOrConnectPrompt } = require('./messageOrConnectPrompt');
 
-let postCreateChannelPrompt = (newChannelName, email, channelUrl, username) => {
+let postCreateChannelPrompt = (newChannelName, email, channelUrl, username, channelType) => {
     clear();
 
     // Constants that will be called as options within the inquirer prompt below
     const goToChannel = `Go to ${newChannelName} channel`;
-    const retrieveChannels = 'Retrieve list of available channels';
+    const goBackToMenu = 'Go back to Main Menu';
 
     const question = [
         {
@@ -25,7 +28,7 @@ let postCreateChannelPrompt = (newChannelName, email, channelUrl, username) => {
             type: 'list',
             choices: [
                 goToChannel,
-                retrieveChannels,
+                goBackToMenu,
             ]
         }
     ]
@@ -33,10 +36,12 @@ let postCreateChannelPrompt = (newChannelName, email, channelUrl, username) => {
         const { userChoice } = answer;
         if (userChoice === goToChannel) {
             console.log(success('Connecting you to the correct channel'));
-            messageOrConnectPrompt(email, newChannelName, channelUrl)
-        } else if (userChoice === retrieveChannels) {
-            console.log('Retrieving list of channels')
-            getChannelListPrompt(email);
+            // @messageOrConnectPrompt has 5 parameters
+            messageOrConnectPrompt(email, newChannelName, channelUrl, username, channelType)
+        } else if (userChoice === goBackToMenu) {
+            clear();
+            // @createOrRetrievePrompt: 2 parameters
+            createOrRetrievePrompt(email, username);
         }
     })
 }
@@ -47,3 +52,5 @@ module.exports = {
 
 // External Modules
 const inquirer = require('inquirer');
+const { createOrRetrievePrompt } = require('./createOrRetrievePrompt');
+

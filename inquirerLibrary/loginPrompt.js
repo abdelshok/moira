@@ -73,5 +73,4 @@ module.exports = {
 // External Modules
 const inquirer = require('inquirer');
 const { error, success } = require('../chalkLibrary');
-const { inputHandlePrompt } = require('./messagePrompt');
 const { createOrRetrievePrompt } = require('./createOrRetrievePrompt');
