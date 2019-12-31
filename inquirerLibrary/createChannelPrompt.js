@@ -16,23 +16,48 @@ const { firebase } = require('../configurations/firebaseConfig');
 //require("firebase/firestore");
 
 // Constants
+
+// These two variables are passed down to the @createChanneLWithSendbird function
+// at the end of the file in order to let it know whether the channel create is going
+// to be public or private
+const publicChannel = 'public'
+const privateChannel = 'private'
+
 // Firebase Database
 const db = firebase.firestore();
 
 // Firebase Functions
-// Kept here because it atually calls the correct inquirer prompt when data
-// is successfully added 
-const addNewChannelToFirebase = async (channelName, channelUrl, email, username) => {
-    db.collection('existing_channels').add({
-        channel_url: channelUrl,
-        channel_name: channelName,
+const addOpenChannelToFirebase = async (channelName, channelUrl, email, username) => {
+    db.collection('open_channels_list').doc(channelName)
+    .set({
+        channelUrl: channelUrl,
     }).then((docRef) => {
         // #toDisable
-        console.log(success('Channel URL stored successfully in Firestore'));
-        postCreateChannelPrompt(channelName, email, channelUrl, username);
+        // console.log(success('Channel successfully created'));
+        setTimeout(() => {
+            clear();
+            setTimeout(() => {
+                postCreateChannelPrompt(channelName, email, channelUrl, username);
+            }, 1000)
+        }, 0)
     }).catch((err) => {
         console.error('Error adding document: ', err);
     })
+}
+
+const addPrivateChannelToFirebase = async(channelName, channelUrl, email, username, channelPassword) => {
+    db.collection('private_channels_list').doc(channelName)
+    .set({
+        channelUrl: channelUrl, 
+        channelPassword: channelPassword
+    })
+    .then((docRef) => {
+        // #toDisable
+        console.log(success('Private channel successfully created'));
+        setTimeout(() => {
+            postCreateChannelPrompt(channelName, email, channelUrl, username);
+        }, 1000)
+    }, 0)
 }
 
 let createChannelPrompt = (email, username) => {
@@ -45,7 +70,6 @@ let createChannelPrompt = (email, username) => {
     ]
     inquirer.prompt(question).then((answer) => {
         let {nameOfChannel} = answer;
-        console.log(`Channel name chosen is ${nameOfChannel}`);
         choosePublicOrPrivatePrompt(nameOfChannel, email, username);
     })
 }
@@ -65,23 +89,29 @@ let choosePublicOrPrivatePrompt = (nameOfChannel, email, username) => {
     inquirer.prompt(question).then((answer) => {
         const { channelType } = answer;
         if (channelType === 'Private') {
-            // Call the external prompt that will ask the user to create a password and will store the
-            // authentication information within Firebase
-            console.log(error("Feature not available yet. It'll be out soon. Redirecting you to the previosu choices, simply choose Public next. 😊"));
-            setTimeout(() => { // Chaining asynchronous callbacks here to make sure they happen one after the other
-                clear();
-                setTimeout(()=> { // Anonymous functions allows us to add parameters to our callback
-                    choosePublicOrPrivatePrompt(nameOfChannel, email)
-                }, 1000)
-            }, 5000);
+            typeInPrivateChannelPasswordPrompt(nameOfChannel, email, username);
         } else if (channelType === 'Public') {
             // Calls the prompt that allows us to create an open channel (below this function)
-            createChannelWithSendbird(nameOfChannel, email, username);
+            createChannelWithSendbird(nameOfChannel, email, username, publicChannel);
         }
     })
 }
 
-let createChannelWithSendbird = async (nameOfChannel, email, username)  => {
+let typeInPrivateChannelPasswordPrompt = (nameOfChannel, email, username) => {
+    const questions = [
+        {
+            name: 'privateChannelPassword',
+            message: "Type in the private channel's password",
+            input: 'password'
+        }
+    ]
+    inquirer.prompt(questions).then((answer) => {
+        let { privateChannelPassword } = answer;
+        createChannelWithSendbird(nameOfChannel, email, username, privateChannel, privateChannelPassword)
+    })
+}
+
+let createChannelWithSendbird = async (nameOfChannel, email, username, typeOfChannel, password)  => {
     SB.connect(email, (connectedUser, err) => {
         SB.OpenChannel.createChannel(nameOfChannel, '', '', [], '', function (openChannel, err) {
             if (err) {
@@ -92,9 +122,17 @@ let createChannelWithSendbird = async (nameOfChannel, email, username)  => {
 
             let { url } = openChannel;
 
-            // #toChange --> Firebase Db permissions
-            // Call Firebase Function that adds the channel name and url to the Firebase database
-            addNewChannelToFirebase(nameOfChannel, url, email, username)
+            if (typeOfChannel === 'open') {
+                // Call Firebase Function that adds the channel name and url to the Firebase database
+                // Open channels don't have password so no password argument in this function call
+                // (as opposed to below)
+                addOpenChannelToFirebase(nameOfChannel, url, email, username)
+            } else if (typeOfChannel === 'private') {
+                // Calls function that will add new private channel with related information: password, url
+                // to the firebase database
+                addPrivateChannelToFirebase(nameOfChannel, url, email, username, password);
+            }
+
         });
     })
 }

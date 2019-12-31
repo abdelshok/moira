@@ -16,12 +16,14 @@ let connectOption = 'Connect to channel feed & receive messages';
 let messageOption = 'Message on channel';
 
 let messageOrConnectPrompt = (email, chosenChannel, channelUrl, username) => {
+
+    clear();
     // Notifies God Admin that user is online and passes in user data
     notifyGodUserIsOnline(email,username, chosenChannel);
     const questions = [
         {
             name: 'userChoice',
-            message: '\nPicking "Connect fo channel feed" will allow you to see all of the incoming messages on the channel. \n \nPicking the "Message on channel" option will allow you to send messages on the channel. \n \nYou therefore need to have two terminal windows open or split your terminal vertically (in order to have two windows), one should be connected to the channel feed (option 1) so that you can see the incoming messages, and the other should be connected to the messaging feature (option 2). \n \n Rock on.',
+            message: 'Picking "Connect to channel feed" will allow you to see all of the incoming messages on the channel. \n \nPicking the "Message on channel" option will allow you to send messages on the channel. \n \nYou therefore need to have two terminal windows open or split your terminal vertically (in order to have two windows), one should be connected to the channel feed (option 1) so that you can see the incoming messages, and the other should be connected to the messaging feature (option 2). \n \n Rock on.',
             type: 'list',
             choices: [
                 `${connectOption}`,

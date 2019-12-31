@@ -3,6 +3,8 @@
 
 'use strict';
 
+// External Packages
+const clear = require('clear');
 // Internal Modules
 const { SB } = require('../configurations/sendbird');
 const { success, neutral, error } = require('../chalkLibrary');
@@ -10,13 +12,16 @@ const { getChannelListPrompt } = require('./getChannelListPrompt');
 const { messageOrConnectPrompt } = require('./messageOrConnectPrompt');
 
 let postCreateChannelPrompt = (newChannelName, email, channelUrl, username) => {
+    clear();
+
+    // Constants that will be called as options within the inquirer prompt below
     const goToChannel = `Go to ${newChannelName} channel`;
     const retrieveChannels = 'Retrieve list of available channels';
 
     const question = [
         {
             name: 'userChoice',
-            message: `Channel ${newChannelName} successfully created`,
+            message: `${newChannelName} channel successfully created`,
             type: 'list',
             choices: [
                 goToChannel,
