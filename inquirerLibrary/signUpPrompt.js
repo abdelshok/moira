@@ -23,18 +23,19 @@ const db = firebase.firestore();
 // Inputs (2):
 // - username: string
 // - email: string
-const addEmailKeyAndUsernameToFirebase = (username, email) => {
+const addEmailKeyAndUsernameToFirebase = (username, email, phoneNumber) => {
     if (username == '' ||  email == '') {
         return false; 
     } else {
         // Retrieves username from 'Users' database in Firestore
-        db.collection('users').doc(email).set({
-            username: username
+        db.collection('email_list').doc(email).set({
+            username: username,
+            phoneNumber: phoneNumber
         })
         .then(() => {
             // Triggers the corresponding prompt which allows the user to either create a channel
             // or retrieve a list of open channels
-            addUsernameKeyAndEmailToFirebase(username, email);
+            addUsernameKeyAndEmailToFirebase(username, email, phoneNumber);
         })
         .catch((returnedError) => {
             console.error('Error caught within addEmailKeyAndUsernameToFirebase function', returnedError);
@@ -46,12 +47,13 @@ const addEmailKeyAndUsernameToFirebase = (username, email) => {
 // Inputs (2):
 // - username: string
 // - email: string
-const addUsernameKeyAndEmailToFirebase = (username, email) => {
+const addUsernameKeyAndEmailToFirebase = (username, email, phoneNumber) => {
     if (username == '' || email == '') {
         return false;
     } else {
         db.collection('username_list').doc(username).set({
-            email: email
+            email: email,
+            phoneNumber: phoneNumber
         })
         .then(() => {
             // console.log('Username correctly added to username list');
@@ -90,7 +92,7 @@ function findIfUsernameExists(email, username) {
             // therefore, we can move to the next step: password validation.
             // #toDisable
             // console.error(success('Username does not exist yet'));
-            followUpPasswordPrompt(email, username);
+            phoneNumberPrompt(email, username)
         })
     }
 }
@@ -130,7 +132,22 @@ let usernamePrompt = (email) => {
     })
 }
 
-let followUpPasswordPrompt = (email, username) => {
+let phoneNumberPrompt = (email, username) => {
+    const questions = [
+        {
+            name: 'phoneNumber',
+            type: 'input',
+            message: 'And your phone number 🏮 '
+        }
+    ]
+    inquirer.prompt(questions).then((answer) => {
+        const { phoneNumber } = answer;
+        console.log('Phone number entered')
+        followUpPasswordPrompt(email, username, phoneNumber);
+    })
+}
+
+let followUpPasswordPrompt = (email, username, phoneNumber) => {
     const questions = [ 
         {
             name: 'password',
@@ -148,11 +165,11 @@ let followUpPasswordPrompt = (email, username) => {
     ]
     inquirer.prompt(questions).then((answer) => {
         const { password } = answer;
-        passwordConfirmationPrompt(email, password, username);
+        passwordConfirmationPrompt(email, password, username, phoneNumber);
     })
 }
 
-let passwordConfirmationPrompt = (email, password, username) => {
+let passwordConfirmationPrompt = (email, password, username, phoneNumber) => {
     const questions = [
         {
             name: 'confirmationPassword',
@@ -172,7 +189,7 @@ let passwordConfirmationPrompt = (email, password, username) => {
 
                     setTimeout(() => {
                         clear();
-                        addEmailKeyAndUsernameToFirebase(username, email);
+                        addEmailKeyAndUsernameToFirebase(username, email, phoneNumber);
                     }, 1000) 
 
                 } catch(err) {
