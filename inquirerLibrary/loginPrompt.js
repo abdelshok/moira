@@ -69,7 +69,6 @@ let loginPrompt = () => {
     })
 }
 
-
 module.exports = {
     loginPrompt,
 }

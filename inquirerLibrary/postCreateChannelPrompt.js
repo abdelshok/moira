@@ -6,6 +6,7 @@
 // External Packages
 const clear = require('clear');
 // Internal Modules
+const { firebase } = require('../configurations/firebaseConfig');
 // APIs
 const { SB } = require('../configurations/sendbirdOpen');
 // Coloring for CLI
@@ -13,6 +14,8 @@ const { success, neutral, error } = require('../chalkLibrary');
 // Inquirer Prompts
 const { getChannelListPrompt } = require('./getChannelListPrompt');
 const { messageOrConnectPrompt } = require('./messageOrConnectPrompt');
+
+const db = firebase.firestore();
 
 let postCreateChannelPrompt = (newChannelName, email, channelUrl, username, channelType) => {
     clear();

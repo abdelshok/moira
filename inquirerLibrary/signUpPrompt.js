@@ -142,7 +142,6 @@ let phoneNumberPrompt = (email, username) => {
     ]
     inquirer.prompt(questions).then((answer) => {
         const { phoneNumber } = answer;
-        console.log('Phone number entered')
         followUpPasswordPrompt(email, username, phoneNumber);
     })
 }

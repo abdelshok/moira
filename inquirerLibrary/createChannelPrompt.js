@@ -9,7 +9,7 @@
 // Internal Modules
 const { openSB } = require('../configurations/sendbirdOpen');
 const { privateSB } = require('../configurations/sendbirdPrivate');
-const { success, neutral, error } = require('../chalkLibrary'); // We import the success type of log in order to use it to notify the user the channel is created successfully
+const { success, error } = require('../chalkLibrary'); // We import the success type of log in order to use it to notify the user the channel is created successfully
 const { postCreateChannelPrompt } = require('./postCreateChannelPrompt');
 const clear = require('clear');
 const { firebase } = require('../configurations/firebaseConfig');
@@ -48,7 +48,8 @@ const addPrivateChannelToFirebase = async(channelName, channelUrl, email, userna
     db.collection(PRV_DB).doc(channelName)
     .set({
         channelUrl: channelUrl, 
-        channelPassword: channelPassword
+        channelPassword: channelPassword,
+        channelUsers: [email]
     })
     .then((docRef) => {
         // #toDisable
