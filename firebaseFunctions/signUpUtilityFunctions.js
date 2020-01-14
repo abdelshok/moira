@@ -10,7 +10,8 @@
 // require("firebase/firestore");
 const firebase = require('../configurations/firebaseConfig');
 const db = firebase.firestore();
-
+// Constants
+const { USERNAME_DB } = require('../env.js');
 
 // Store username in Firebase database with email 
 // #improvements: later on store the number of the person to allow texts to be sent
@@ -27,7 +28,7 @@ const addUsernameAndEmailToFirebase = (username, email) => {
     } else {
         // #toDisable
         console.log('Username and email will be stored in the corresponding database');
-        db.collection('users').doc(email).set({
+        db.collection(USERNAME_DB).doc(email).set({
             userName: username, 
             phoneNumber: phoneNumber
         })

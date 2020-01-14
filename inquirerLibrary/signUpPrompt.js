@@ -6,11 +6,11 @@
 const clear = require('clear');
 
 // Firebase App (the core Firebase SDK) is always required and must be listed before other Firebase SDKs
-
 // Initialization
 const { firebase } = require('../configurations/firebaseConfig');
-//require("firebase/firestore");
 const db = firebase.firestore();
+// Constants 
+const { USERNAME_DB, EMAIL_DB } = require('../env.js');
 
 // Firebase Functions (below)
 // Initially created a firebase folder in which I declared the firebase functions that will be used within this project
@@ -28,7 +28,7 @@ const addEmailKeyAndUsernameToFirebase = (username, email, phoneNumber) => {
         return false; 
     } else {
         // Retrieves username from 'Users' database in Firestore
-        db.collection('email_list').doc(email).set({
+        db.collection(EMAIL_DB).doc(email).set({
             username: username,
             phoneNumber: phoneNumber
         })
@@ -51,7 +51,7 @@ const addUsernameKeyAndEmailToFirebase = (username, email, phoneNumber) => {
     if (username == '' || email == '') {
         return false;
     } else {
-        db.collection('username_list').doc(username).set({
+        db.collection(USERNAME_DB).doc(username).set({
             email: email,
             phoneNumber: phoneNumber
         })
@@ -79,7 +79,7 @@ function findIfUsernameExists(email, username) {
         return false;
     } else {
         // Retrieves whether the username exists or not
-        db.collection('username_list').doc(username)
+        db.collection(USERNAME_DB).doc(username)
         .get()
         .then((querySnapshot) => {
             const userData = querySnapshot.data();

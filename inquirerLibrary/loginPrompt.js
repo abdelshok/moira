@@ -9,6 +9,8 @@ const { firebase } = require('../configurations/firebaseConfig');
 // Firebase-related initializations or requires
 //require("firebase/firestore");
 const db = firebase.firestore(); // Database
+// Constants
+const { EMAIL_DB } = require('../env.js');
 
 
 //// Firebase Functions 
@@ -21,10 +23,12 @@ const retrieveUsernameFromFirebase = (email) => {
         return false;
     } else {
         // #toFigureOut: Add logging for if the email is not of the correct format ?
-        db.collection('users').doc(email)
+        db.collection(EMAIL_DB).doc(email)
         .get()
         .then((querySnapshot) => {
             const userData = querySnapshot.data();
+            // #toDisable
+            // console.log('User data found', userData);
             const { username } = userData;
             // CreateOrRetrievePrompt should be called under here when the call is successful
             createOrRetrievePrompt(email, username);

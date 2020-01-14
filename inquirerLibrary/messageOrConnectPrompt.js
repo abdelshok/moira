@@ -23,7 +23,7 @@ let messageOrConnectPrompt = (email, chosenChannelName, channelUrl, username, ch
     const questions = [
         {
             name: 'userChoice',
-            message: '\nPicking the first option will allow you to see incoming messages on the channel.\n\nPicking the second option will allow you to send messages to the channel.\n\nYou need to be connected to both streams to communicate with your friends (meaning two terminal windows or one window split in half).',
+            message: 'Picking the first option will allow you to see incoming messages on the channel.\n\nPicking the second option will allow you to send messages to the channel.\n\nYou need to be connected to both streams to communicate with your friends (meaning two terminal windows or one window split in half).',
             type: 'list',
             choices: [
                 `${connectOption}`,

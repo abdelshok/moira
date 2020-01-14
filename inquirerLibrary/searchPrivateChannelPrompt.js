@@ -9,10 +9,9 @@ const { messageOrConnectPrompt } = require('./messageOrConnectPrompt');
 // Firebase App Initialization
 const { firebase } = require('../configurations/firebaseConfig');
 const db = firebase.firestore();
-
 // Constants
-// #toDo: move the 'private' channel vs. open in process.env to make it global
 const privateChannel = 'private';
+const { PRV_DB } = require('../env.js');
 
 // Firebase functions 
 
@@ -26,7 +25,7 @@ const findIfChannelExists = (channelName, email, username) => {
         console.log(error('Channel name is empty. Please type a channel name.'));
         typeInPrivateChannelNamePrompt();
     } else { // #toDO: move all the database names within process.env
-        db.collection('private_channels_list').doc(channelName) // Will be modified to private_channels_list after
+        db.collection(PRV_DB).doc(channelName) // Will be modified to private_channels_list after
         .get()
         .then((querySnapshot) => {
             const channelData = querySnapshot.data();

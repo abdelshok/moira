@@ -13,10 +13,8 @@ const { success, neutral, error } = require('../chalkLibrary'); // We import the
 const { postCreateChannelPrompt } = require('./postCreateChannelPrompt');
 const clear = require('clear');
 const { firebase } = require('../configurations/firebaseConfig');
-
-//require("firebase/firestore");
-
 // Constants
+const { OPEN_DB, PRV_DB } = require('../env.js');
 
 // These two variables are passed down to the @createChanneLWithSendbird function
 // at the end of the file in order to let it know whether the channel create is going
@@ -29,7 +27,7 @@ const db = firebase.firestore();
 
 // Firebase Functions
 const addOpenChannelToFirebase = async (channelName, channelUrl, email, username) => {
-    db.collection('open_channels_list').doc(channelName)
+    db.collection(OPEN_DB).doc(channelName)
     .set({
         channelUrl: channelUrl,
     }).then((docRef) => {
@@ -47,7 +45,7 @@ const addOpenChannelToFirebase = async (channelName, channelUrl, email, username
 }
 
 const addPrivateChannelToFirebase = async(channelName, channelUrl, email, username, channelPassword) => {
-    db.collection('private_channels_list').doc(channelName)
+    db.collection(PRV_DB).doc(channelName)
     .set({
         channelUrl: channelUrl, 
         channelPassword: channelPassword

@@ -22,7 +22,6 @@ let connectPrompt = (email, channelName, channelUrl, username, channelType) => {
     // file because they need to be consistent
 
     // #toDisable: log added here for debugging
-    console.log('ConnectPrompt about to run', channelType);
     let SB = channelType === 'open' ? openSB : privateSB;
 
     const questions = [{
