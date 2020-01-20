@@ -45,7 +45,7 @@ const processGroupChannelData = (channelName, userEmail, channelUrl, username, p
         } else {
             // We make the necessary firebase call to add the user to the list
             // #toDisable
-            // console.log('Calling firebase function to add user to channel list @processGroupChannelData');
+            // console.log('Calling firebase function to add user to channel list @processGroupChannelDatai');
             addUserEmailToChannelUserList(channelName, userEmail, channelUrl, username, privateChannel);
         }
     })
