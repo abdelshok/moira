@@ -14,6 +14,7 @@ const { success, neutral, error } = require('../chalkLibrary');
 // Inquirer Prompts
 const { getChannelListPrompt } = require('./getChannelListPrompt');
 const { messageOrConnectPrompt } = require('./messageOrConnectPrompt');
+const { createOrRetrievePrompt } = require('./createOrRetrievePrompt');
 
 const db = firebase.firestore();
 
@@ -55,5 +56,4 @@ module.exports = {
 
 // External Modules
 const inquirer = require('inquirer');
-const { createOrRetrievePrompt } = require('./createOrRetrievePrompt');
 

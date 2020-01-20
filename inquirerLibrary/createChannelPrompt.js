@@ -10,7 +10,6 @@
 const { openSB } = require('../configurations/sendbirdOpen');
 const { privateSB } = require('../configurations/sendbirdPrivate');
 const { success, error } = require('../chalkLibrary'); // We import the success type of log in order to use it to notify the user the channel is created successfully
-const { postCreateChannelPrompt } = require('./postCreateChannelPrompt');
 const clear = require('clear');
 const { firebase } = require('../configurations/firebaseConfig');
 // Constants
@@ -167,8 +166,6 @@ let createPrivateChannel = (nameOfChannel, email, username, password) => {
 
 // Function 3B or 4
 let createChannelWithSendbird = async (nameOfChannel, email, username, channelType, password)  => {
-    console.log('About to create channel with Senbird');
-    console.log('Channel type', channelType);
     if (channelType === 'open') {
         createOpenChannel(nameOfChannel, email, username)
     } else if (channelType === 'private') {
@@ -184,3 +181,4 @@ module.exports = {
 // External Modules
 const inquirer = require('inquirer');
 // Internal Modules
+const { postCreateChannelPrompt } = require('./postCreateChannelPrompt');

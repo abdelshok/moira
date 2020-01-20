@@ -1,7 +1,10 @@
 // Prompt to send messages to users
 
+// Configuration
 const { openSB } = require('../configurations/sendbirdOpen');
 const { privateSB } = require('../configurations/sendbirdPrivate');
+// Inquirer Module
+const { createOrRetrievePrompt } = require('./createOrRetrievePrompt');
 
 let handleUserMessageInputPrompt = (email, chosenChannel, channelUrl, username, channelType) => {
 
@@ -20,7 +23,7 @@ let handleUserMessageInputPrompt = (email, chosenChannel, channelUrl, username, 
         // Create an object with both the email and the handle itself? 
         // I'll use email for now which prevents people faking their identity. Will figure out
         // how to implement nickname later
-
+        console.log('Response is ', answer.connectToChatConfirmation);
         // Temporary new implementation connects the user to the sendbird API with the user name
         SB.connect(username, (user, error) => { 
 
@@ -40,7 +43,7 @@ let handleUserMessageInputPrompt = (email, chosenChannel, channelUrl, username, 
                     // which is possible because we pass through the 'openChannel' object
                     console.log(`Open channel ${chosenChannel} reached`);
                     clear();
-                    inputMessagePrompt(openChannel, email);
+                    inputMessagePrompt(openChannel, email, username);
                 })
             })
 
@@ -48,7 +51,7 @@ let handleUserMessageInputPrompt = (email, chosenChannel, channelUrl, username, 
     })
 }
 
-let inputMessagePrompt = (openChannel, email) => {
+let inputMessagePrompt = (openChannel, email, username) => {
     const questions = [
         {
             name: 'message',
@@ -56,23 +59,31 @@ let inputMessagePrompt = (openChannel, email) => {
             message: 'Type your message and press enter:'
         }
     ]
+
     inquirer.prompt(questions).then((answer) => {
+        // #todisablenow: 
+        console.log('@inputMessagePrompt with email and username', email, username);
         try {
             let { message } = answer;
             if (message === 'exitexitexit') {
                 console.log(success('Messaging interface successfully exited. Redirecting you.'))
                 setTimeout(() => { // Chaining asynchronous callbacks here to make sure they happen one after the other
                     clear();
-                    setTimeout(()=> { // Anonymous functions allows us to add parameters to our callback
-                        createOrRetrievePrompt(email);
-                    }, 1000)
+                    
+                    try {
+                        setTimeout(()=> { // Anonymous functions allows us to add parameters to our callback
+                            createOrRetrievePrompt(email, username);
+                        }, 1000)
+                    } catch(error) {
+                        console.log(error('@createOrRetrievePrompt incorrectly called from @messagePrompt'));
+                    }
                 }, 2500);
             } else { // Allows the user to exit from the message Prompt and go back to Main menu
                 openChannel.sendUserMessage(message, (message, error) => {
                     if (error) {
                         console.log('Error', error);
                     }
-                    inputMessagePrompt(openChannel);
+                    inputMessagePrompt(openChannel, email, username);
                 })
             }
         } catch (err) {
@@ -90,5 +101,4 @@ module.exports = {
 const clear = require('clear');
 const inquirer = require('inquirer');
 // Internal Modules
-const { createOrRetrievePrompt } = require('./createOrRetrievePrompt');
 const { success, error } = require('../chalkLibrary');

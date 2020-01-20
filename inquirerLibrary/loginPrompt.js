@@ -5,6 +5,7 @@
 //// External Packages
 const clear = require('clear');
 //// Internal Modules
+const { createOrRetrievePrompt } = require('./createOrRetrievePrompt');
 const { firebase } = require('../configurations/firebaseConfig');
 // Firebase-related initializations or requires
 //require("firebase/firestore");
@@ -38,6 +39,7 @@ const retrieveUsernameFromFirebase = (email) => {
         });
     }
 }
+
 let loginPrompt = () => {
     const questions = [ {
         name: 'email',
@@ -76,4 +78,3 @@ module.exports = {
 // External Modules
 const inquirer = require('inquirer');
 const { error, success } = require('../chalkLibrary');
-const { createOrRetrievePrompt } = require('./createOrRetrievePrompt');

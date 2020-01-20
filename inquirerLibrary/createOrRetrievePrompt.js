@@ -4,16 +4,12 @@
 
 // #TODO: Change the name of this file, it doesn't describe it correctly
 
-let retrieveChannelsOption = 'Retrieve list of available open channels';
-let searchPrivateChannelOption = 'Search and join private channel';
-let createChannelOption = 'Create open or private channel';
-
-// Internal Modules
-const { getChannelListPrompt } = require('./getChannelListPrompt');
-const { createChannelPrompt } = require('./createChannelPrompt');
-const { typeInPrivateChannelNamePrompt } = require('./searchPrivateChannelPrompt');
 
 let createOrRetrievePrompt = (email, username) => {
+    let retrieveChannelsOption = 'Retrieve list of available open channels';
+    let searchPrivateChannelOption = 'Search and join private channel';
+    let createChannelOption = 'Create open or private channel';
+
     const questions = [
         {
             name: 'userChoice',
@@ -48,3 +44,7 @@ module.exports = {
 
 // External Modules
 const inquirer = require('inquirer');
+// Internal Modules
+const { getChannelListPrompt } = require('./getChannelListPrompt');
+const { createChannelPrompt } = require('./createChannelPrompt');
+const { typeInPrivateChannelNamePrompt } = require('./searchPrivateChannelPrompt');

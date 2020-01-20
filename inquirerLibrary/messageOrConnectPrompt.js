@@ -11,13 +11,14 @@ const { handleUserMessageInputPrompt } = require('./messagePrompt');
 // Twilio-related
 // const { notifyGodUserIsOnline } = require('../twilio/sendSMS');
 
-// Constants
-let connectOption = 'Connect to channel feed & receive messages';
-let messageOption = 'Message on channel';
-
 let messageOrConnectPrompt = (email, chosenChannelName, channelUrl, username, channelType) => {
 
     clear();
+
+    // Constants
+    let connectOption = 'Connect to channel feed & receive messages';
+    let messageOption = 'Message on channel';
+
     // Notifies God Admin that user is online and passes in user data
     // notifyGodUserIsOnline(email, username, chosenChannelName);
     const questions = [

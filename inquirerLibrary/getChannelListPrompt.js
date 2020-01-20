@@ -14,7 +14,6 @@ const { openSB } = require('../configurations/sendbirdOpen');
 const { findChannelCountAndUrl, reformatChannelArray } = require('../utilityLibrary/channelUtility');
 const { findChannelName } = require('../utilityLibrary/getChannelUtility');
 // Inquirer-CLI-related prompts
-const { messageOrConnectPrompt } = require('./messageOrConnectPrompt');
 // Firebase-related initializations
 const db = firebase.firestore(); 
 // Constants
@@ -34,8 +33,6 @@ const openChannel = 'open';
 // - None. Simply calls the messageOrConnectPrompt() function with the found URL.
 const findChannelUrlInFirebase = (channelString, email, username) => {
     let channelName = findChannelName(channelString);
-    console.log('Channel selected is', channelName);
-    console.log('About to run the firebase call to find URL');
     db.collection(OPEN_DB).doc(channelName)
     .get() // #toDo: put the database name within the process.env fil.get()
     .then((querySnapshot) => {
@@ -108,4 +105,7 @@ module.exports = {
     getChannelListPrompt
 }
 
+// External Packages
 const inquirer = require('inquirer');
+// Internal Modules
+const { messageOrConnectPrompt } = require('./messageOrConnectPrompt');
