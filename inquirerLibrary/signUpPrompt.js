@@ -28,7 +28,7 @@ const addEmailKeyAndUsernameToFirebase = (username, email, phoneNumber) => {
         return false; 
     } else {
         // Retrieves username from 'Users' database in Firestore
-        db.collection(EMAIL_DB).doc(email).set({
+        db.collection("email_list").doc(email).set({
             username: username,
             phoneNumber: phoneNumber
         })
