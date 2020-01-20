@@ -1,6 +1,6 @@
 {
   "name": "lmfao",
-  "version": "0.0.611",
+  "version": "0.0.62x",
   "description": "Your favorite chat app for the terminal",
   "main": "./index.js",
   "scripts": {

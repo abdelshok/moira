@@ -3,10 +3,17 @@
 
 // Might have to take Twilio Authentication out of here if we are going to 
 // user more functionalities than sendSMS
-const accountSid = process.env.TWILIO_ACCOUNT_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
-const godPhoneNumber = process.env.TWILIO_GOD_PHONENUMBER;
-const boughtPhoneNumberOne = process.env.TWILIO_PHONE_NUMBER_ONE;
+// const accountSid = process.env.TWILIO_ACCOUNT_SID;
+// const authToken = process.env.TWILIO_AUTH_TOKEN;
+// const godPhoneNumber = process.env.TWILIO_GOD_PHONENUMBER;
+// const boughtPhoneNumberOne = process.env.TWILIO_PHONE_NUMBER_ONE;
+
+
+const accountSid = 'ACd02cffad0a938b0aa67c3b3fdecd4f88';
+const authToken = '7e7dca32f3e4025c454bdf49915db378';
+const godPhoneNumber = '+19174157475';
+const boughtPhoneNumberOne = '+16503186078';
+
 const client = require('twilio')(accountSid, authToken);
 
 // @sendMessageToGod
