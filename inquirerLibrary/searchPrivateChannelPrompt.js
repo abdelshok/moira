@@ -49,6 +49,9 @@ const processGroupChannelData = (channelName, userEmail, channelUrl, username, p
             addUserEmailToChannelUserList(channelName, userEmail, channelUrl, username, privateChannel);
         }
     })
+    .catch((err) => {
+        console.log(error('Error found in @processGroupChannelData function', err));
+    })
 }
 
 // Firebase functions 
@@ -117,12 +120,13 @@ let typeInPrivateChannelNamePrompt = (email, username) => {
     ]
     inquirer.prompt(questions).then((answer) => {
         let { privateChannelName } = answer;
-        confirmChannelNamePrompt(privateChannelName, email, username);
+        findIfChannelExists(privateChannelName, email, username);
+        // confirmChannelNamePrompt(privateChannelName, email, username);
     })
 }
 
 let confirmChannelNamePrompt = (privateChannelName, email, username, ) => {
-    const prompt = `Please confirm the name of the private channel ${privateChannelName}`
+    const prompt = `Confirm the name of the private channel ${privateChannelName}`
     const questions = [
         {
         name: 'userChoice',

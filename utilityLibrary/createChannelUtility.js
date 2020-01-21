@@ -3,7 +3,7 @@
 
 function isThereWhitespace(passedString) {
     let trimmedString = passedString.trim();
-    let arrayString = trimmedString.split(' ')
+    let arrayString = trimmedString.split(' ');
     if (arrayString.length > 1) {
         return false;
     } else if (arrayString.length == 1) {
