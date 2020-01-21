@@ -41,7 +41,7 @@ const processGroupChannelData = (channelName, userEmail, channelUrl, username, p
             // If user exists in channel's list of users, then we move to the next step
             // #toDisable
             // console.log('User already exists in private channel list');
-            messageOrConnectPrompt(email, channelName, channelUrl, username, privateChannel);
+            messageOrConnectPrompt(userEmail, channelName, channelUrl, username, privateChannel);
         } else {
             // We make the necessary firebase call to add the user to the list
             // #toDisable
@@ -117,7 +117,28 @@ let typeInPrivateChannelNamePrompt = (email, username) => {
     ]
     inquirer.prompt(questions).then((answer) => {
         let { privateChannelName } = answer;
-        findIfChannelExists(privateChannelName, email, username);
+        confirmChannelNamePrompt(privateChannelName, email, username);
+    })
+}
+
+let confirmChannelNamePrompt = (privateChannelName, email, username, ) => {
+    const prompt = `Please confirm the name of the private channel ${privateChannelName}`
+    const questions = [
+        {
+        name: 'userChoice',
+        message: prompt,
+        type: 'confirm'
+        }
+    ];
+    inquirer.prompt(questions).then((answer) => {
+        let { userChoice } = answer;
+
+        // If user confirms, then move to password step
+        if (userChoice) {
+            findIfChannelExists(privateChannelName, email, username);
+        } else {
+            typeInPrivateChannelNamePrompt(privateChannelName, email, username);
+        }
     })
 }
 

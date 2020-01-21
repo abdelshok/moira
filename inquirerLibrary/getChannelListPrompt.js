@@ -7,7 +7,7 @@
 const clear = require('clear');
 //// Internal Modules
 const { firebase } = require('../configurations/firebaseConfig');
-const { success, neutral, lightNeonPurple, realRed} = require('../chalkLibrary');
+const { realRed } = require('../chalkLibrary');
 // Sendbird API 
 const { openSB } = require('../configurations/sendbirdOpen');
 // Utility functions

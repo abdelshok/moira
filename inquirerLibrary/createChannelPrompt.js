@@ -12,6 +12,7 @@ const { privateSB } = require('../configurations/sendbirdPrivate');
 const { success, error } = require('../chalkLibrary'); // We import the success type of log in order to use it to notify the user the channel is created successfully
 const clear = require('clear');
 const { firebase } = require('../configurations/firebaseConfig');
+const { isThereWhitespace } = require('../utilityLibrary/createChannelUtility');
 // Constants
 const { OPEN_DB, PRV_DB } = require('../env.js');
 
@@ -64,11 +65,27 @@ const addPrivateChannelToFirebase = async(channelName, channelUrl, email, userna
 
 // Function 1
 let createChannelPrompt = (email, username) => {
+    // #forLater
+    // standardize name of channel by saying that only '_' and alphabetic
+    // characters are allowed
     const question = [
         {
             name: 'nameOfChannel',
             message: 'Please type out the name of the channel:',
-            type: 'input'
+            type: 'input',
+            validate: (name) => {
+                let trimmedLowerName = name.trim().toLowerCase();
+                if (trimmedLowerName === '') {
+                    return 'Name of channel cannot be empty';
+                } else {
+                    let isThereSpace = isThereWhitespace(trimmedLowerName);
+                    if (isThereSpace === false) {
+                        return 'Name of channel cannot have any spaces';
+                    } else {
+                        return true;
+                    }
+                }
+            }
         }
     ]
     inquirer.prompt(question).then((answer) => {

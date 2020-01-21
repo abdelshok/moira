@@ -23,7 +23,6 @@ let handleUserMessageInputPrompt = (email, chosenChannel, channelUrl, username, 
         // Create an object with both the email and the handle itself? 
         // I'll use email for now which prevents people faking their identity. Will figure out
         // how to implement nickname later
-        console.log('Response is ', answer.connectToChatConfirmation);
         // Temporary new implementation connects the user to the sendbird API with the user name
         SB.connect(username, (user, error) => { 
 
@@ -41,8 +40,8 @@ let handleUserMessageInputPrompt = (email, chosenChannel, channelUrl, username, 
                     }
                     // Accepts an input message and makes sure to send it through the socket
                     // which is possible because we pass through the 'openChannel' object
-                    console.log(`Open channel ${chosenChannel} reached`);
                     clear();
+                    console.log(lightNeonGreen(`Channel ${chosenChannel} reached. Type 'exitexit' to come back to main menu at any time.`));
                     inputMessagePrompt(openChannel, email, username);
                 })
             })
@@ -61,11 +60,9 @@ let inputMessagePrompt = (openChannel, email, username) => {
     ]
 
     inquirer.prompt(questions).then((answer) => {
-        // #todisablenow: 
-        console.log('@inputMessagePrompt with email and username', email, username);
         try {
             let { message } = answer;
-            if (message === 'exitexitexit') {
+            if (message === 'exitexit') {
                 console.log(success('Messaging interface successfully exited. Redirecting you.'))
                 setTimeout(() => { // Chaining asynchronous callbacks here to make sure they happen one after the other
                     clear();
@@ -101,4 +98,4 @@ module.exports = {
 const clear = require('clear');
 const inquirer = require('inquirer');
 // Internal Modules
-const { success, error } = require('../chalkLibrary');
+const { success, error, lightNeonGreen } = require('../chalkLibrary');
