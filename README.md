@@ -2,14 +2,15 @@
   <img alt="Logo" src="https://raw.githubusercontent.com/abdelshok/moira/master/assets/images/lmfaoLogo.png" width="100" />
 </div>
 <h1 align="center">
-  lmfao.tech - v4
+  The first chat app for the terminal
 </h1>
 <p align="center">
-  The first chat app for the terminal.
+  lmfao.tech
 </p>
 
-
+<div align="center">
 ![demo](https://raw.githubusercontent.com/abdelshok/moira/master/assets/images/Chat.png)
+</div>
 
 ## 🛠 Installation & Set Up
 
