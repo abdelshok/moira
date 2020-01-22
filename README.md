@@ -1,5 +1,5 @@
 <div align="center">
-  <img alt="Logo" src="https://raw.githubusercontent.com/abdelshok/personal/master/src/images/lmfaoLogo.png" width="100" />
+  <img alt="Logo" src="https://raw.githubusercontent.com/abdelshok/moira/master/assets/images/lmfaoLogo.png" width="100" />
 </div>
 <h1 align="center">
   lmfao.tech - v4
@@ -9,7 +9,7 @@
 </p>
 
 
-![demo](https://raw.githubusercontent.com/abdelshok/personal/master/src/images/Chat.png)
+![demo](https://raw.githubusercontent.com/abdelshok/moira/master/assets/images/Chat.png)
 
 ## 🛠 Installation & Set Up
 
