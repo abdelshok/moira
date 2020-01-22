@@ -8,9 +8,8 @@
   lmfao.tech
 </p>
 
-<div align="center">
 ![demo](https://raw.githubusercontent.com/abdelshok/moira/master/assets/images/Chat.png)
-</div>
+
 
 ## 🛠 Installation & Set Up
 
