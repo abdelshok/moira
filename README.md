@@ -57,7 +57,6 @@ Now, in order to get started:
 2. Once you get to the "Main menu" page, you'll have the option to join existing public channels, create a new public or private password-protected channel, or search through the list of existing private channels - which would then ask you to input the correct channel's password, assuming that the private channel exists
 
 <br>
-<br>
 
 <div align="center">
   <img alt="initial" src="https://raw.githubusercontent.com/abdelshok/moira/master/assets/images/Initial.png"/
@@ -69,7 +68,6 @@ Now, in order to get started:
 
 3. Let's say you pick the first option, you'll find yourself choosing from a display of all the existing public channels and their live number of participants
 
-<br>
 <br>
 
 <div align="center">
@@ -83,7 +81,6 @@ Now, in order to get started:
 4. Assuming that you choose the channel named `asap_mob`, you'll then be redirected to the final page below.
 
 <br>
-<br>
 
 <div align="center">
   <img alt="connect" src="https://raw.githubusercontent.com/abdelshok/moira/master/assets/images/Connect.png"/
@@ -96,16 +93,13 @@ Now, in order to get started:
 5. In one of your windows or panes, pick **Connect to channel feed**, which will turn that terminal window / pane into an interface that'll display incoming messages. 
 
 <br>
-<br>
 
 6. In the other window or pane, pick **Message on channel**, which will display an interface that'll allow you to send a message to the specified channel.
 
 <br>
-<br>
 
 7. At this point you should have two windows with the two interfaces below:
 
-<br>
 <br>
 
 <div align="center">
@@ -123,7 +117,6 @@ Now, in order to get started:
 <br>
 
 8. Or two window panes within one window with the same interfaces
-<br>
 <br>
 <div align="center">
   <img alt="chat" src="https://raw.githubusercontent.com/abdelshok/moira/master/assets/images/Chat.png"/
