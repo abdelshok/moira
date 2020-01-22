@@ -8,7 +8,7 @@
   lmfao.tech
 </p>
 
-![demo](https://raw.githubusercontent.com/abdelshok/moira/master/assets/gifs/lmfaoLoginGif.gif)
+![demo](https://raw.githubusercontent.com/abdelshok/moira/master/assets/gifs/lmfaoLoginGif1.gif)
 
 
 ## 🛠 Installation & Set Up
