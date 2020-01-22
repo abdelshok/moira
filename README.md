@@ -8,7 +8,7 @@
   lmfao.tech
 </p>
 
-![demo](https://raw.githubusercontent.com/abdelshok/moira/master/assets/images/Chat.png)
+![demo](https://raw.githubusercontent.com/abdelshok/moira/master/assets/gifs/lmfaoLoginGif.png)
 
 
 ## 🛠 Installation & Set Up
@@ -25,7 +25,10 @@
     lmfao
    ```
 
-## 🚀 
+## 🚀 How to 
+
+1. First sign up or login using your existing credentials.
+
 
 ## 🎨 
 
