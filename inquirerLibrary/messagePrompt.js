@@ -42,7 +42,11 @@ let handleUserMessageInputPrompt = (email, chosenChannel, channelUrl, username, 
                     // which is possible because we pass through the 'openChannel' object
                     clear();
                     console.log(lightNeonGreen(`Channel ${chosenChannel} reached. Type 'exitexit' to come back to main menu at any time.`));
-                    inputMessagePrompt(openChannel, email, username);
+                    // inputMessagePrompt(openChannel, email, username);
+                    // Render the screen.
+                    // screen.render();
+                    const { testScreen } = require('../blessedLibrary/testScreen');
+                    testScreen.render()
                 })
             })
 

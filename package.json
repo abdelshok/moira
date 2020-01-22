@@ -24,6 +24,7 @@
   "homepage": "https://github.com/abdelshok/moira#readme",
   "dependencies": {
     "@firebase/firestore": "^1.9.1",
+    "blessed": "^0.1.81",
     "chalk": "^3.0.0",
     "clear": "^0.1.0",
     "dotenv": "^8.2.0",
