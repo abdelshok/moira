@@ -9,7 +9,7 @@
 </p>
 
 <div align="center">
-  <img alt="lmfaoGif" src="https://raw.githubusercontent.com/abdelshok/moira/master/assets/gifs/lmfaoLoginGif3.gif"/>
+  <img alt="lmfaoGif" src="https://raw.githubusercontent.com/abdelshok/moira/master/assets/gifs/lmfaoLoginGif4.gif"/>
 </div>
 
 
@@ -52,9 +52,8 @@ Now, in order to get started:
 <br>
 
 1. First sign up or login using your existing credentials. 
-<br>
 
-2. Once you get to the "Main menu" page, you'll have the option to join existing public channels, create a new public or private password-protected channel, or search through the list of existing private channels - which would then ask you to input the correct channel's password, assuming that the private channel exists
+2. Once you get to the "Main menu" page, you'll have the option to join existing public channels, create a new public or private password-protected channel, or search through the list of existing private channels - which would then ask you to input the private channel's password, assuming that the private channel exists
 
 <br>
 
@@ -116,7 +115,7 @@ Now, in order to get started:
 
 <br>
 
-8. Or two window panes within one window with the same interfaces
+8. Or two panes / sections within one window 
 <br>
 <div align="center">
   <img alt="chat" src="https://raw.githubusercontent.com/abdelshok/moira/master/assets/images/Chat.png"/
