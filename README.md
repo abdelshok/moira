@@ -9,7 +9,7 @@
 </p>
 
 <div align="center">
-  <img alt="lmfaoGif" src="https://raw.githubusercontent.com/abdelshok/moira/master/assets/gifs/lmfaoLoginGif2.gif"/>
+  <img alt="lmfaoGif" src="https://raw.githubusercontent.com/abdelshok/moira/master/assets/gifs/lmfaoLoginGif3.gif"/>
 </div>
 
 
