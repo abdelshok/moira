@@ -1,14 +1,11 @@
-
-// Blessed area
-
-var blessed = require('blessed');
+var blessed = require('neo-blessed');
 
 // Create a screen object.
-var testScreen = blessed.screen({
+var screen = blessed.screen({
   smartCSR: true
 });
 
-testScreen.title = 'LMFAO Chat';
+screen.title = 'my window title';
 
 // Create a box perfectly centered horizontally and vertically.
 var box = blessed.box({
@@ -33,19 +30,32 @@ var box = blessed.box({
   }
 });
 
-
 // Append our box to the screen.
-testScreen.append(box);
+screen.append(box);
 
+// If our box is clicked, change the content.
+box.on('click', function(data) {
+  box.setContent('{center}Some different {red-fg}content{/red-fg}.{/center}');
+  screen.render();
+});
+
+// If box is focused, handle `enter`/`return` and give us some more content.
+box.key('enter', function(ch, key) {
+  box.setContent('{right}Even different {black-fg}content{/black-fg}.{/right}\n');
+  box.setLine(1, 'bar');
+  box.insertLine(1, 'foo');
+  screen.render();
+});
 
 // Quit on Escape, q, or Control-C.
-testScreen.key(['escape', 'q', 'C-c'], function(ch, key) {
-    return process.exit(0);
-  });
-  
-  // Focus our element.
+screen.key(['escape', 'q', 'C-c'], function(ch, key) {
+  return process.exit(0);
+});
+
+// Focus our element.
 box.focus();
 
+
 module.exports = {
-    testScreen
+  screen
 }

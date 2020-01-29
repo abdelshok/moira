@@ -24,13 +24,13 @@
   "homepage": "https://github.com/abdelshok/moira#readme",
   "dependencies": {
     "@firebase/firestore": "^1.9.1",
-    "blessed": "^0.1.81",
     "chalk": "^3.0.0",
     "clear": "^0.1.0",
     "dotenv": "^8.2.0",
     "figlet": "^1.2.4",
     "firebase": "^7.5.0",
     "inquirer": "^7.0.0",
+    "neo-blessed": "^0.2.0",
     "sendbird": "^3.0.112",
     "sendbird-nodejs": "^1.0.0",
     "twilio": "^3.39.1"
