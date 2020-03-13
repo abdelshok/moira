@@ -2,7 +2,7 @@
   <img alt="Logo" src="https://raw.githubusercontent.com/abdelshok/moira/master/assets/images/lmfaoLogo.png" width="100" />
 </div>
 <h1 align="center">
-  The first chat app for the terminal
+  An NPM-based chat app for the terminal
 </h1>
 <p align="center">
   lmfao.tech
@@ -29,7 +29,7 @@
 
 ## 🐉 Current Features
 
-- Users can join any amount of public or private channels that can each hold up to 1,000 concurrent users and have a conversation with their friends or coworkers while looking like they're working
+- Users can join any amount of public or private channels that can each hold up to 1,000 concurrent users and have a conversation with their friends or coworkers, while also potentially giving the impression that they are working
 - Users can retrieve a list of all public channels around the world and see how many people are currently live in these channels
 - Users can create password protected private channels and have a conversation with their friends while being ensured that no one else will be able to join
 
