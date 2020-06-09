@@ -27,11 +27,13 @@
     lmfao
    ```
 
-## 🐉 Current Features
+## 🐉 Current Features:
 
-- Users can join any amount of public or private channels that can each hold up to 1,000 concurrent users and have a conversation with their friends or coworkers, while also potentially giving the impression that they are working
-- Users can retrieve a list of all public channels around the world and see how many people are currently live in these channels
-- Users can create password protected private channels and have a conversation with their friends while being ensured that no one else will be able to join
+- Users can sign up and create an account using their email and a username of their choice. 
+- Authenticated users can see list of public channels that they can join and use to chat with their friends and coworkers. Each channel can hold up to 1,000 concurrent users.
+- Users can search for existing private channels. If a private channel is found with a matching name, the user can join the channel by entering the password associated with the channel.
+- Users can create their own public channels, which will then be displayed with the list of existing public channels.
+- Users can create their own password-protected channels and ensure that they can talk with their friends in secret if the need arose.
 
 ## 🚀 Resources & How to 
 
@@ -129,12 +131,12 @@ Now, in order to get started:
 
 ## 🚨 Technical Details 
 
-- Firebase is used for Authentication and Firebase is used as a NoSQL Firestore
-- The purpose of this application is to allow people to chat and give the impression that they are working while also allowing them to do so privately, without being tracked.
+- Firebase is used for Authentication and Firestore is used as a NoSQL Database
+- The purpose of this application is to allow people to chat without worrying about their conversations being tracked
 - As a result, no conversations are being saved. 
 - The emails are only stored in order to provide validation down the line
-- Phone numbers are stored so that group members receive text messages when someone enters their private chat
-- Other than that, no data is being tracked. No ip address, no keywords, nothing. 
+- Phone numbers are stored so that group members receive text messages when someone enters their private chat. 
+- Other than that, no data is being tracked. No IP address, no keywords, nothing. 
   - Disclaimer: IP addresses might be used down the line and stored in local computer storage or cloud storage (AWS or Google Cloud) in order to provide faster login for the users when they run `lmfao`
 
 ## 🥊  Remaining to do:

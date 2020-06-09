@@ -1,7 +1,7 @@
 {
   "name": "lmfao",
-  "version": "0.1.2",
-  "description": "Your favorite chat app for the terminal",
+  "version": "1.0.1",
+  "description": "Your NPM-based chat app for the terminal",
   "main": "./index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

@@ -9,7 +9,7 @@ let initialPrompt = () => {
     const questions = [
         {
             name: 'WelcomeUserPrompt',
-            message: 'LMFAO \n \n 🙊 \n \n 🙉 \n \n 🙈 \n \n \n Your NPM chat app for the terminal. Please press enter. \n'
+            message: 'LMFAO \n \n 🙊 \n \n 🙉 \n \n 🙈 \n \n \n Your NPM-based chat app for the terminal. Please press enter. \n'
         }
     ]
     inquirer.prompt(questions).then(() => {
