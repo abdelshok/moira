@@ -11,7 +11,7 @@
 
 const accountSid = 'ACd02cffad0a938b0aa67c3b3fdecd4f88';
 const authToken = '7e7dca32f3e4025c454bdf49915db378';
-const godPhoneNumber = '+19174157475';
+const godPhoneNumber = '+19179386889';
 const boughtPhoneNumberOne = '+16503186078';
 
 const client = require('twilio')(accountSid, authToken);
