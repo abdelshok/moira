@@ -12,6 +12,9 @@
   <img alt="lmfaoGif" src="https://raw.githubusercontent.com/abdelshok/moira/master/assets/gifs/lmfaoLoginGif4.gif"/>
 </div>
 
+## 💀Current State ☠
+
+This software is no longer maintained or supported. 
 
 ## 🛠 Installation & Set Up
 
