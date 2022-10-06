@@ -5,7 +5,7 @@
   An NPM-based chat app for the terminal
 </h1>
 <p align="center">
-  lmfao.tech
+  moira.tech [Taken Down]
 </p>
 
 <div align="center">
